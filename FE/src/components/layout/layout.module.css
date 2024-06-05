@@ -20,4 +20,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 359px;
+
+  @media all and (desktop) {
+    width: 1200px;
+  }
 }

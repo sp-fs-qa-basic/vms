@@ -12,7 +12,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />} >
-          <Route path="/" element={<CompaniesPage />} />
+          <Route index element={<CompaniesPage />} />
           <Route path="/comparison" element={<ComparisonPage />}>
             <Route path=":companyId" element={<CompanyDetailPage />} />
           </Route>

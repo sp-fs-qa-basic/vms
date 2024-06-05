@@ -1,4 +1,7 @@
+@value mobile, tablet, desktop from "@/styles/breakpoint.css";
+
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -9,16 +12,25 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
-  height: 40px;
+  height: 48px;
   width: 144px;
   border: 1px solid var(--gray-200);
   border-radius: 10px;
   font-size: 14px;
   color: var(--gray-100);
   font-weight: var(--font-regular);
+
+  @media all and (mobile) {
+    width: 127px;
+    height: 40px;
+    font-size: 13px;
+  }
+
 }
 
 .tableContainer {
+  position: absolute;
+  top: 50px;
   width: 144px;
   border: 1px solid var(--gray-200);
   border-radius: 10px;
