@@ -16,14 +16,12 @@
   font-size: 14px;
   color: var(--gray-100);
   font-weight: var(--font-regular);
-  background-color: var(--black-300);
 }
 
 .tableContainer {
   width: 144px;
   border: 1px solid var(--gray-200);
   border-radius: 10px;
-  background-color: var(--black-300);
   border-spacing: 0px;
 }
 

@@ -9,7 +9,6 @@
   height: 40px;
   border-radius: 10px;
   border: 1px solid var(--gray-200);
-  background-color: var(--black-300);
 
   @media all and (tablet) {
     width: 269px;

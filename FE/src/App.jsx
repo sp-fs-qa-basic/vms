@@ -3,6 +3,7 @@ import CompaniesPage from "@/pages/CompaniesPage";
 import ComparisonPage from "@/pages/ComparisonPage";
 import CompanyDetailPage from "@/pages/CompanyDetailPage";
 import InvestmentsPage from "@/pages/InvestmentsPage";
+import MyComparisonPage from "@/pages/MyComparisonPage";
 import Test from "@/pages/test";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Route path="/comparison" element={<ComparisonPage />}>
           <Route path=":companyId" element={<CompanyDetailPage />} />
         </Route>
+        <Route path='/myComparison' element={<MyComparisonPage />} />
         <Route path="/investment" element={<InvestmentsPage />} />
         <Route path='/test' element={<Test />}/>
       </Routes>
