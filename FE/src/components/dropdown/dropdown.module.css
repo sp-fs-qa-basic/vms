@@ -1,0 +1,23 @@
+.tableContainer {
+  width:144px;
+  border: 1px solid var(--gray-200);
+  border-radius: 10px;
+  background-color: var(--black-300);
+  border-spacing: 0px;
+}
+
+.trContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 40px;
+  border-bottom: 1px solid var(--gray-200);
+  font-size: 14px;
+  color: var(--gray-100);
+  font-weight: var(--font-regular);
+}
+
+.trContainer:last-child {
+  border-bottom: none; 
+}
