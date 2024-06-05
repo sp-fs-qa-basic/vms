@@ -1,3 +1,41 @@
+@value tablet, desktop from "@/styles/breakpoint.css";
+
 .container {
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 12px;
+  width: 212px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--gray-200);
+  background-color: var(--black-300);
+
+  @media all and (tablet) {
+    width: 269px;
+    height: 48px; 
+  }
+
+  @media all and (desktop) {
+    width: 448px;
+    height: 48px;
+  }
+} 
+
+.inputContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  width: auto;
+  height: auto;
+}
+
+.input {
+  all: unset;
+  width: auto;
+  height: auto;
+  color: var(--gray-100);
+  font-size: 14px;
+  font-weight: var(--font-regular);
 }
