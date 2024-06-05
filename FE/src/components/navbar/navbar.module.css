@@ -1,36 +1,50 @@
-@value tablet, desktop from "@/styles/breakpoint.css";
+@value mobile, tablet, desktop from "@/styles/breakpoint.css";
 
 .container {
   display: flex;
   align-items: center;
+  padding-left: 16px;
   gap: 8px;
   width: 100%;
   height: 56px;
 
   @media all and (tablet) {
+    padding-left: 24px;
     gap: 24px;
+    width: 744px;
     height: 60px;
   }
 
   @media all and (desktop) {
+    padding-left: 0px;
     gap: 40px;
+    width: 1200px;
     height: 60px;
   }
-
 }
 
 .logo {
   width: 110.568px;
   height: 38.957px;
+
+  @media all and (mobile) {
+    width: 64px;
+    height: 23px;
+  }
 }
 
 .navContainer {
   display: flex;
 }
 
-.navListContainer {
-  padding : 21px 17px;
+.button {
+  padding: 21px 17px;
   color: var(--gray-200);
   font-size: 15px;
   font-weight: var(--font-semibold);
+
+  @media all and (mobile) {
+    padding: 20px 8px;
+    font-size: 12px;
+  }
 }

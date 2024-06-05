@@ -1,0 +1,28 @@
+@value mobile, tablet, desktop from "@/styles/breakpoint.css";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 359px;
+
+  @media all and (desktop) {
+    width: 1200px;
+  }
+}

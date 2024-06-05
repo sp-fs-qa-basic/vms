@@ -5,18 +5,21 @@ import CompanyDetailPage from "@/pages/CompanyDetailPage";
 import InvestmentsPage from "@/pages/InvestmentsPage";
 import MyComparisonPage from "@/pages/MyComparisonPage";
 import Test from "@/pages/test";
+import Layout from "@/components/layout/Layout";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<CompaniesPage />} />
-        <Route path="/comparison" element={<ComparisonPage />}>
-          <Route path=":companyId" element={<CompanyDetailPage />} />
+        <Route path="/" element={<Layout />} >
+          <Route index element={<CompaniesPage />} />
+          <Route path="/comparison" element={<ComparisonPage />}>
+            <Route path=":companyId" element={<CompanyDetailPage />} />
+          </Route>
+          <Route path='/myComparison' element={<MyComparisonPage />} />
+          <Route path="/investment" element={<InvestmentsPage />} />
+          <Route path='/test' element={<Test />}/>
         </Route>
-        <Route path='/myComparison' element={<MyComparisonPage />} />
-        <Route path="/investment" element={<InvestmentsPage />} />
-        <Route path='/test' element={<Test />}/>
       </Routes>
     </BrowserRouter>
   );

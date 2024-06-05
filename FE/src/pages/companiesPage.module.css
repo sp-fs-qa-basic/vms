@@ -1,0 +1,19 @@
+@value mobile, tablet from "@/styles/breakpoint.css";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  width: 1200px;
+
+  @media all and (tablet) {
+    width: 696px;
+  }
+
+  @media all and (mobile) {
+    width: 359px;
+    margin-top: 24px;
+  }
+}
