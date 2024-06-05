@@ -13,7 +13,7 @@ function Navbar() {
         {Object.keys(navigatorLists).map((list, index) => (
           <button
             key={index}
-            className={S.navListContainer}
+            className={S.button}
             onClick={() => navigate(navigatorLists[list])}
           >
             {list}
