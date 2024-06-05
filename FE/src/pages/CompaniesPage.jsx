@@ -1,10 +1,8 @@
-import Layout from "@/components/layout/Layout";
-
 function CompaniesPage() {
   return (
-    <>
-      <Layout />
-    </>
+    <div>
+      
+    </div>
   );
 }
 
