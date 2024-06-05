@@ -4,6 +4,7 @@
   font-family: 'Pretendard';
   box-sizing: border-box;
   font-size: 10px;
+  background-color: var(--black-300);
 }
 
 button {
