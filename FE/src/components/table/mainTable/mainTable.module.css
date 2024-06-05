@@ -1,0 +1,39 @@
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.th {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 100px;
+  height: 39px;
+  background-color: var(--black-100);
+}
+
+.thCell {
+  color: #fff;
+  font-size: 14px;
+  font-weight: var(--font-medium);
+  background-color: var(--black-100);
+}
+
+.theadGap {
+  height: 16px;
+}
+
+.td {
+  height: 64px;
+  background-color: var(--black-200);
+}
+
+.tdCell {
+  color: var(--gray-100);
+  font-size: 14px;
+  font-weight: var(--font-regular);
+  overflow: hidden;
+  white-Space: nowrap;
+  text-Overflow: ellipsis;
+}

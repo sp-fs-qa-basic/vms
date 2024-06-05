@@ -1,4 +1,4 @@
-import * as S from "@/components/dropdown/dropdown.module.css";
+import * as S from "./tableList.module.css";
 
 function TableList ({lists, setValue}) {
   const handleSetValue = (list) => {
