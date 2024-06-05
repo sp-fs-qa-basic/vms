@@ -1,3 +1,4 @@
+import { useState } from "react";
 import * as S from "./search.module.css";
 import {ReactComponent as SearchImg} from '@/assets/icons/ic_search.svg';
 
@@ -6,7 +7,7 @@ function Search() {
     <div className={S.container}>
       <div className={S.inputContainer}>
         <SearchImg />
-        <input className={S.input} placeholder="검색어를 입력해주세요"/>
+        <input className={S.input} placeholder="검색어를 입력해주세요" />
       </div>
     </div>
   );

@@ -1,11 +1,13 @@
-import Search from "@/components/search/Search"
+import DropDown from "@/components/dropdown/DropDown";
+import Search from "@/components/search/Search";
 
-function Test () {
+function Test() {
   return (
     <>
       <Search />
+      <DropDown />
     </>
-  )
+  );
 }
 
-export default Test
+export default Test;
