@@ -1,25 +1,25 @@
 import { useState, useEffect } from "react";
 
 function useShowDropDown(ref, initialBoolean) {
-  const [showOptions, setShowOptions] = useState(initialBoolean);
+  const [show, setShow] = useState(initialBoolean);
 
   useEffect(() => {
     const onClick = (e) => {
-      if (ref.current !== null && !ref.current.contains(e.target)) {
-        setShowOptions(!showOptions);
+      if (ref.current && !ref.current.contains(e.target)) {
+        setShow(false);
       }
     };
 
-    if (showOptions) {
+    if (show) {
       window.addEventListener("click", onClick);
     }
 
     return () => {
       window.removeEventListener("click", onClick);
     };
-  }, [showOptions, ref]);
+  }, [show, ref]);
   
-  return [showOptions, setShowOptions];
+  return [show, setShow];
 }
 
 export default useShowDropDown;
