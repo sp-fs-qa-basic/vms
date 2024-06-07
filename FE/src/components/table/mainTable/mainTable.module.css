@@ -1,0 +1,50 @@
+.tableContainer {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Ensures consistent column widths */
+}
+
+.thCell {
+  height: 39px;
+  background-color: var(--black-100);
+}
+
+.th, .td {
+  padding: 8px;
+  text-align: left;
+  border-radius: 10px;
+}
+
+.theadGap {
+  height: 16px;
+}
+
+.td {
+  height: 64px;
+  border-bottom: 1px solid var(--gray-300);
+}
+
+.td:last-child {
+  border-bottom: none;
+}
+
+.thCell, .tdCell {
+  color: var(--gray-100);
+  padding: 8px;
+}
+
+.tdCell {
+  background-color: var(--black-200);
+  font-size: 14px;
+  font-weight: var(--font-regular);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tdCell.introduce {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px; /* Adjust according to your layout */
+}
