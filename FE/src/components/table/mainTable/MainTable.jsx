@@ -18,7 +18,7 @@ function MainTable ({titles}) {
           {StartupLists.map((list, index) => (
             <tr key={index} className={S.td}>
               <td className={S.tdCell}>{list.name}</td>
-              <td className={S.tdCell}>{list.introduce}</td>
+              <td className={`${S.tdCell} ${S.introduce}`}>{list.introduce}</td>
               <td className={S.tdCell}>{list.category}</td>
               <td className={S.tdCell}>{list.cumulative}</td>
               <td className={S.tdCell}>{list.revenues}</td>

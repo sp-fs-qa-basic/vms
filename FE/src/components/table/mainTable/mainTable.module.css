@@ -1,23 +1,18 @@
 .tableContainer {
-  display: flex;
-  flex-direction: column;
   width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Ensures consistent column widths */
 }
 
-.th {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 100px;
+.thCell {
   height: 39px;
   background-color: var(--black-100);
 }
 
-.thCell {
-  color: #fff;
-  font-size: 14px;
-  font-weight: var(--font-medium);
-  background-color: var(--black-100);
+.th, .td {
+  padding: 8px;
+  text-align: left;
+  border-radius: 10px;
 }
 
 .theadGap {
@@ -26,14 +21,30 @@
 
 .td {
   height: 64px;
-  background-color: var(--black-200);
+  border-bottom: 1px solid var(--gray-300);
+}
+
+.td:last-child {
+  border-bottom: none;
+}
+
+.thCell, .tdCell {
+  color: var(--gray-100);
+  padding: 8px;
 }
 
 .tdCell {
-  color: var(--gray-100);
+  background-color: var(--black-200);
   font-size: 14px;
   font-weight: var(--font-regular);
   overflow: hidden;
-  white-Space: nowrap;
-  text-Overflow: ellipsis;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tdCell.introduce {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px; /* Adjust according to your layout */
 }
