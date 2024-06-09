@@ -2,4 +2,4 @@ GET http://localhost:3000/companies
 
 ###
 
-GET http://localhost:3000/companies/1f431c56-fc94-496c-83ca-ae4abafa6b24
+GET http://localhost:3000/companies/1

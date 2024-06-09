@@ -9,16 +9,18 @@ const app = express();
 app.use(express.json());
 
 app.get("/companies", async (req, res) => {
-  const companies = await prisma.startup.findMany();
+  const companies = await prisma.company.findMany({
+    orderBy: { id: "asc" },
+  });
   res.send(companies);
 });
 
 app.get("/companies/:id", async (req, res) => {
-  const { id } = req.params;
-  const company = await prisma.startup.findUnique({
-    where: { id },
+  const companyId = parseInt(req.params.id);
+  const company = await prisma.company.findUnique({
+    where: { id: companyId },
   });
   res.send(company);
 });
 
-app.listen(process.env.PORT || 3000, () => console.log('Server Started'));
+app.listen(process.env.PORT || 3000, () => console.log("Server Started"));

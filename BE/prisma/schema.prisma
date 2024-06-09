@@ -13,14 +13,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Startup {
-  id              String @id @default(uuid())
-  name            String
-  description     String
-  category        Category
-  totalInvestment Float
-  revenue         Float
-  employees       Int
+model Company {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  category    Category
+  accInvest   Float
+  revenue     Float
+  employee    Int
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 enum Category {
