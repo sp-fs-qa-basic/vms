@@ -6,7 +6,7 @@ import Pagination from "@/components/button/pagination/Pagination";
 import { sortList } from "@/constants/dropdownList";
 import Button from "@/components/button/Button";
 import { useState } from "react";
-import MyChoiceCompany from "@/components/modal/myChoice/MyChoiceCompany";
+import ChoiceCompany from "@/components/modal/choiceCompany/ChoiceCompany";
 
 function Test() {
   const [show, setShow] = useState(false);
@@ -23,7 +23,7 @@ function Test() {
           모달열기
         </button>
       </div>
-      {show && <MyChoiceCompany setShow={setShow} />}
+      {show && <ChoiceCompany setShow={setShow} title="나의 기업 선택하기"/>}
     </>
   );
 }
