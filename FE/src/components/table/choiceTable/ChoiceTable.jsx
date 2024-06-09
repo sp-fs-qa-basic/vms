@@ -6,13 +6,15 @@ function ChoiceTable({ title }) {
   return (
     <div className={S.container}>
       {title}
-      <div>
+      <div className={S.tableContainer}>
         {Companies.map((company, index) => (
-          <div key={index}>
-            <div>
-              <img src={`${company.src}`} />
-              {company.name}
-              {company.category}
+          <div key={index} className={S.companyBox}>
+            <div className={S.company}>
+              <img src={`${company.src}`} className={S.img} />
+              <div className={S.companyTitle}>
+                <span className={S.name}>{company.name}</span>
+                <span className={S.category}>{company.category}</span>
+              </div>
             </div>
             <Button name="선택하기" />
           </div>
