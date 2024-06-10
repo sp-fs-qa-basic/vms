@@ -10,7 +10,6 @@
   composes: button;
   width: 194px;
   height: 48px;
-  padding: 13px 48px;
   border-radius: 50px;
   font-size: 18px;
   font-weight: var(--font-semibold);
@@ -18,7 +17,22 @@
   @media all and(mobile) {
     width: 135px;
     height: 40px;
-    padding: 12px 24px;
+    font-size: 14px;
+  }
+}
+
+.light_circle {
+  composes: button;
+  gap: 2px;
+  width: 104px;
+  height: 48px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: var(--font-medium);
+
+  @media all and(mobile) {
+    width: 73px;
+    height: 32px;
     font-size: 14px;
   }
 }
@@ -33,3 +47,7 @@
   color: #fff;
 }
 
+.checked {
+  border: 1px solid #fff;
+  color: #fff;
+}
