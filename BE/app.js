@@ -174,8 +174,42 @@ app.get(
         createdAt: true,
         updatedAt: true,
       },
+      orderBy: {
+        amount: "desc",
+      },
     });
     res.json(investors);
+  })
+);
+
+app.patch(
+  "/investments/:id",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { name, amount, comment, password } = req.body;
+
+    const updatedInvestor = await prisma.investor.update({
+      where: { id },
+      data: {
+        name,
+        amount,
+        comment,
+        password
+      }
+    });
+    res.json(updatedInvestor);
+  })
+);
+
+app.delete(
+  "/investments/:id",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    await prisma.investor.delete({
+      where: { id },
+    });
+    res.json({ message: "성공적으로 삭제되었습니다." });
   })
 );
 
