@@ -194,8 +194,8 @@ app.patch(
         name,
         amount,
         comment,
-        password
-      }
+        password,
+      },
     });
     res.json(updatedInvestor);
   })
@@ -210,6 +210,28 @@ app.delete(
       where: { id },
     });
     res.json({ message: "성공적으로 삭제되었습니다." });
+  })
+);
+
+app.post(
+  "/investments/:id/userCheck",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { password } = req.body;
+
+    const investor = await prisma.investor.findUnique({
+      where: { id },
+    });
+
+    if (!investor) {
+      return res.status(404).json({ error: "비밀번호가 일치하지 않습니다" });
+    }
+
+    if (investor.password !== password) {
+      return res.status(401).json({ error: "비밀번호가 일치하지 않습니다." });
+    }
+
+    res.json({ message: "비밀번호가 일치합니다." });
   })
 );
 
