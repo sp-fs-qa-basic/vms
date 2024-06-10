@@ -35,15 +35,21 @@ function asyncHandler(handler) {
 app.get(
   "/companies",
   asyncHandler(async (req, res) => {
-    const { offset = 0, limit = 10, view = "", search = "" } = req.query;
+    const { offset = 0, limit = 10, view = "revenueDesc", search = "" } = req.query;
 
     let orderBy;
     switch (view) {
       case "accInvestDesc":
         orderBy = { accInvest: "desc" };
         break;
+      case "accInvestAsc":
+        orderBy = { accInvest: "asc" };
+        break;
       case "revenueDesc":
         orderBy = { revenue: "desc" };
+        break;
+      case "revenueAsc":
+        orderBy = { revenue: "asc" };
         break;
       case "employeeDesc":
         orderBy = { employee: "desc" };
