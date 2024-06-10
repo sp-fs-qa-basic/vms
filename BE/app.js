@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client";
+import cors from "cors";
 import * as dotenv from "dotenv";
 import express from "express";
 dotenv.config();
@@ -6,6 +7,7 @@ dotenv.config();
 const prisma = new PrismaClient();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 function asyncHandler(handler) {
