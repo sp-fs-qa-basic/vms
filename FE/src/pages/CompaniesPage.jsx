@@ -2,7 +2,7 @@ import Titlebar from "@/components/titlebar/Titlebar";
 import MainTable from "@/components/table/mainTable/MainTable";
 import { sortList } from "@/constants/dropdownList";
 import { MainTitleList } from "@/constants/titleList";
-import * as S from "./companiesPage.module.css";
+import * as S from "./pages.module.css";
 import Pagination from "@/components/button/pagination/Pagination";
 
 function CompaniesPage() {
