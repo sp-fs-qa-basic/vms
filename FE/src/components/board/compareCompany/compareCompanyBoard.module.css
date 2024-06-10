@@ -1,0 +1,13 @@
+.button {
+  position: absolute;
+  top: -65px;
+  right: 0px;
+}
+
+.span {
+  color: var(--gray-200);
+  text-align: center;
+  font-size: 14px;
+  font-weight: var(--font-regular);
+  background-color: unset;
+}
