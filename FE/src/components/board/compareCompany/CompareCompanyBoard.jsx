@@ -9,7 +9,7 @@ function CompareCompanyBoard({ title, show, setShow }) {
       <div className={S.button}>
         <Button
           name="기업 추가하기"
-          className={`${B.half_circle} ${B.orange_background}`}
+          className={`${B.light_half_circle} ${B.orange_background}`}
           onClick={() => setShow(!show)}
         />
       </div>
