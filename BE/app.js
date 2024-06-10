@@ -128,4 +128,55 @@ app.post(
   })
 );
 
+app.post(
+  "/investments",
+  asyncHandler(async (req, res) => {
+    const { name, companyId, amount, comment, password } = req.body;
+
+    const companyExists = await prisma.company.findUnique({
+      where: {
+        companyId,
+      },
+    });
+    if (!companyExists) {
+      return res
+        .status(404)
+        .json({ error: "No company exists for the provided companyId." });
+    }
+
+    const newInvestment = await prisma.investor.create({
+      data: {
+        name,
+        amount,
+        comment,
+        password,
+        company: { connect: { companyId } }, // 외래 키에 해당하는 회사와 연결
+      },
+    });
+    res.send(newInvestment);
+  })
+);
+
+app.get(
+  "/investments/:companyId",
+  asyncHandler(async (req, res) => {
+    const { companyId } = req.query;
+
+    const investors = await prisma.investor.findMany({
+      where: {
+        companyId,
+      },
+      select: {
+        id: true,
+        name: true,
+        amount: true,
+        comment: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    res.json(investors);
+  })
+);
+
 app.listen(process.env.PORT || 3000, () => console.log("Server Started"));

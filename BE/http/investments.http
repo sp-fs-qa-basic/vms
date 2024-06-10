@@ -1,0 +1,14 @@
+POST http://localhost:3000/investments
+Content-Type: application/json
+
+{
+  "name": "김투자",
+  "companyId": "3f89b7b2-d0e8-4d9e-bc4e-4c88709c1e76",
+  "amount": 10000000,
+  "comment": "앞으로의 미래가 기대되는 기업입니다",
+  "password": "password"
+}
+
+###
+
+GET http://localhost:3000/investments/3f89b7b2-d0e8-4d9e-bc4e-4c88709c1e76

@@ -24,8 +24,9 @@ model Company {
   employee       Int
   selectionCount Int      @default(0)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Investor  Investor[]
 }
 
 enum Category {
@@ -33,4 +34,18 @@ enum Category {
   MACHINERY
   SOLUTION
   E_COMMERCE
+}
+
+model Investor {
+  id        Int    @id @default(autoincrement())
+  name      String
+  companyId String
+  amount    Float
+  comment   String
+  password  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [companyId])
 }
