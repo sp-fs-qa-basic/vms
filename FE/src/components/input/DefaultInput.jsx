@@ -27,9 +27,9 @@ function DefaultInput({
   });
 
   return (
-    <div>
-      <label>{label}</label>
-      <div
+    <div className={S.container} >
+      <label className={S.label} >{label}</label>
+      <div className={S.inputContainer}
         // className={
         //   error[name]?.message
         //     ? `${S.inputContainer} ${S.errorBorder}`

@@ -1,10 +1,11 @@
 import DefaultInput from "@/components/input/DefaultInput";
+import * as S from "./doInvestForm.module.css";
 
 function DoInvestForm({ method }) {
   const { control, handleSubmit } = method;
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={S.formContainer} >
       <DefaultInput
         placeholder="투자자 이름을 입력해 주세요"
         name="name"
