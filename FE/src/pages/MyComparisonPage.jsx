@@ -6,11 +6,13 @@ import Button from "@/components/button/Button";
 import * as S from "./pages.module.css";
 import * as B from "@/components/button/button.module.css";
 import DoneCompare from "@/components/board/doneCompare/DoneCompare";
+import DoInvestment from "@/components/modal/doInvestment/DoInvestment";
 
 function MyComparisonPage() {
   const [showMyCompany, setShowMyCompany] = useState(false);
   const [showCompare, setShowCompare] = useState(false);
   const [showTable, setShowTable] = useState(false);
+  const [showDoInvestment, setShowDoInvestment] = useState(false);
 
   return (
     <>
@@ -34,7 +36,14 @@ function MyComparisonPage() {
             />
           </>
         ) : (
-          <DoneCompare />
+          <>
+            <DoneCompare />
+            <Button
+              name="나의 기업에 투자하기"
+              className={`${B.half_circle} ${B.gray_background}`}
+              onClick={() => setShowDoInvestment(true)}
+            />
+          </>
         )}
       </div>
       {showMyCompany && (
@@ -42,6 +51,9 @@ function MyComparisonPage() {
       )}
       {showCompare && (
         <ChoiceCompany title="나의 기업 선택하기" setShow={setShowCompare} />
+      )}
+      {showDoInvestment && (
+        <DoInvestment title="기업에 투자하기" setShow={setShowDoInvestment}  />
       )}
     </>
   );
