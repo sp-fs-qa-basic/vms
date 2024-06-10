@@ -33,12 +33,7 @@ function asyncHandler(handler) {
 app.get(
   "/companies",
   asyncHandler(async (req, res) => {
-    const {
-      offset = 0,
-      limit = 10,
-      view = "",
-      search = "",
-    } = req.query;
+    const { offset = 0, limit = 10, view = "", search = "" } = req.query;
 
     let orderBy;
     switch (view) {
@@ -84,6 +79,36 @@ app.get(
       where: { id: companyId },
     });
     res.send(company);
+  })
+);
+
+app.get(
+  "/selections",
+  asyncHandler(async (req, res) => {
+    const { view = "" } = req.query;
+
+    let orderBy;
+    switch (view) {
+      case "selectionAsc":
+        orderBy = { selectionCount: "asc" };
+        break;
+      case "selectionDesc":
+        orderBy = { selectionCount: "desc" };
+        break;
+      default:
+        orderBy = { id: "asc" };
+        break;
+    }
+
+    const companies = await prisma.company.findMany({
+      select: {
+        id: true,
+        companyId: true,
+        selectionCount: true,
+      },
+      orderBy,
+    });
+    res.send(companies);
   })
 );
 
