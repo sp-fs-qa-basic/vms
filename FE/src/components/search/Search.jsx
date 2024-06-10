@@ -1,6 +1,6 @@
 import { useState } from "react";
 import * as S from "./search.module.css";
-import {ReactComponent as SearchImg} from '@/assets/icons/ic_search.svg';
+import {ReactComponent as SearchImg} from '@/assets/icons/search.svg';
 
 function Search() {
   return (
