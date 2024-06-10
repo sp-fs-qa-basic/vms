@@ -1,0 +1,36 @@
+POST http://localhost:3000/investments
+Content-Type: application/json
+
+{
+  "name": "김연우",
+  "companyId": "3f89b7b2-d0e8-4d9e-bc4e-4c88709c1e76",
+  "amount": 30000000,
+  "comment": "투자할 가치가 있습니다.",
+  "password": "test1111"
+}
+
+###
+
+GET http://localhost:3000/investments/3f89b7b2-d0e8-4d9e-bc4e-4c88709c1e76
+
+###
+
+PATCH  http://localhost:3000/investments/9975497e-fc64-4405-ba55-b766eac6aeeb
+Content-Type: application/json
+
+{
+  "name": "김코드"
+}
+
+###
+
+DELETE http://localhost:3000/investments/9975497e-fc64-4405-ba55-b766eac6aeeb
+
+###
+
+POST http://localhost:3000/investments/7cdb2b3c-8cef-4323-83a0-e54e7d2169ad/userCheck
+Content-Type: application/json
+
+{
+  "password": "test1111"
+}
