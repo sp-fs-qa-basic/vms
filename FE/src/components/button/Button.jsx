@@ -1,13 +1,13 @@
-import * as S from './button.module.css';
-import {ReactComponent as CheckImg} from '@/assets/icons/check.svg';
+import * as S from "./button.module.css";
+import { ReactComponent as CheckImg } from "@/assets/icons/check.svg";
 
-function Button ({isChecked, name, className, onClick}) {
+function Button({ isChecked, name, className, onClick, recent }) {
   return (
     <button className={`${S.button} ${className}`} onClick={onClick}>
-      {isChecked && <CheckImg />}
+      {(isChecked && !recent) && <CheckImg />}
       {name}
     </button>
-  )
+  );
 }
 
-export default Button
+export default Button;

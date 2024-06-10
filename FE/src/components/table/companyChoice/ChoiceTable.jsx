@@ -7,11 +7,13 @@ function ChoiceTable({ title }) {
     <div className={S.container}>
       {title}
       <div className={S.tableContainer}>
-        {Companies.map((company) => (
+        {Companies.map((company, index) => (
           <CompanyChoice
+            key={index}
             src={company.src}
             name={company.name}
             category={company.category}
+            recent={title.includes('최근') ? true : false}
           />
         ))}
       </div>
