@@ -37,16 +37,16 @@ app.get(
 
     let orderBy;
     switch (view) {
-      case "accInvest_desc":
+      case "accInvestDesc":
         orderBy = { accInvest: "desc" };
         break;
-      case "revenue_desc":
+      case "revenueDesc":
         orderBy = { revenue: "desc" };
         break;
-      case "employee_desc":
+      case "employeeDesc":
         orderBy = { employee: "desc" };
         break;
-      case "employee_asc":
+      case "employeeAsc":
         orderBy = { employee: "asc" };
         break;
       default:
