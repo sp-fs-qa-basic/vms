@@ -8,6 +8,7 @@ import Button from "@/components/button/Button";
 import { useState } from "react";
 import ChoiceCompany from "@/components/modal/choiceCompany/ChoiceCompany";
 import DeleteAuth from "@/components/modal/deleteAuth/DeleteAuth";
+import DefaultInput from "@/components/input/DefaultInput";
 
 function Test() {
   const [showChoiceCompany, setShowChoiceCompany] = useState(false);
@@ -27,6 +28,7 @@ function Test() {
         <button onClick={() => setShowDeleteAuth(true)} className={S.modal}>
           삭제 인증 모달열기
         </button>
+        <DefaultInput placeholder='비밀번호를 입력하세요' name='비밀번호' control />
       </div>
       {showChoiceCompany && <ChoiceCompany setShow={setShowChoiceCompany} title="나의 기업 선택하기"/>}
       {showDeleteAuth && <DeleteAuth setShow={setShowDeleteAuth} title="나의 기업 선택하기"/>}
