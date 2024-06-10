@@ -8,11 +8,12 @@ import Button from "@/components/button/Button";
 import { useState } from "react";
 import ChoiceCompany from "@/components/modal/choiceCompany/ChoiceCompany";
 import DeleteAuth from "@/components/modal/deleteAuth/DeleteAuth";
-import DefaultInput from "@/components/input/DefaultInput";
+import DoInvestment from "@/components/modal/doInvestment/DoInvestment";
 
 function Test() {
   const [showChoiceCompany, setShowChoiceCompany] = useState(false);
   const [showDeleteAuth, setShowDeleteAuth] = useState(false);
+  const [showDoInvest, setShowDoInvest] = useState(false);
 
   return (
     <>
@@ -28,10 +29,22 @@ function Test() {
         <button onClick={() => setShowDeleteAuth(true)} className={S.modal}>
           삭제 인증 모달열기
         </button>
-        <DefaultInput placeholder='비밀번호를 입력하세요' name='비밀번호' control />
+        <button onClick={() => setShowDoInvest(true)} className={S.modal}>
+          투자하기 모달 열기
+        </button>
       </div>
-      {showChoiceCompany && <ChoiceCompany setShow={setShowChoiceCompany} title="나의 기업 선택하기"/>}
-      {showDeleteAuth && <DeleteAuth setShow={setShowDeleteAuth} title="나의 기업 선택하기"/>}
+      {showChoiceCompany && (
+        <ChoiceCompany
+          setShow={setShowChoiceCompany}
+          title="나의 기업 선택하기"
+        />
+      )}
+      {showDeleteAuth && (
+        <DeleteAuth setShow={setShowDeleteAuth} title="나의 기업 선택하기" />
+      )}
+      {showDoInvest && (
+        <DoInvestment setShow={setShowDoInvest} title="기업에 투자하기"/>
+      )}
     </>
   );
 }

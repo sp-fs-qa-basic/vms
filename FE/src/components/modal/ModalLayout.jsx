@@ -1,5 +1,5 @@
 import * as S from "./modalLayout.module.css";
-import { ReactComponent as CloseImg } from "@/assets/icons/ic_delete.svg";
+import { ReactComponent as CloseImg } from "@/assets/icons/delete.svg";
 
 function ModalLayout({ title, children, setShow }) {
   return (

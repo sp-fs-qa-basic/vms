@@ -1,6 +1,10 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 module.exports = {
   entry: "./src/index.jsx",
@@ -16,6 +20,7 @@ module.exports = {
       "@/components" : path.resolve(__dirname, './src/components'),
       "@/constants" : path.resolve(__dirname, './src/constants'),
       "@/hooks" : path.resolve(__dirname, './src/hooks'),
+      "@/libs" : path.resolve(__dirname, './src/libs'),
       "@/pages" : path.resolve(__dirname, './src/pages'),
       "@/styles" : path.resolve(__dirname, './src/styles')
     }
@@ -81,6 +86,9 @@ module.exports = {
         },
       ],
     }),
+    new webpack.DefinePlugin({
+      'process.env.REACT_APP_BASE_URL': JSON.stringify(process.env.REACT_APP_BASE_URL)
+    })
   ],
   devServer: {
     historyApiFallback: true,

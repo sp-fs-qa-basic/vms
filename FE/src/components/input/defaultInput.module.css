@@ -1,0 +1,51 @@
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: 1px solid var(--gray-30);
+  border-radius: 8px;
+}
+
+.inputContainer:focus-within {
+  border-color: var(--violet);
+}
+
+.input {
+  all: unset;
+  display: flex;
+  align-items: center;
+  padding: 13px 16px;
+  width: 100%;
+  font-size: 1.6rem;
+  color: var(--gray-80);
+  border: 1px solid var(--gray-30);
+}
+
+.img {
+  position: absolute;
+  display: flex;
+  right: 16px;
+}
+
+.show {
+  display: none;
+}
+
+.errorBorder {
+  border: 1px solid var(--red);
+}
+
+.errorBorder:focus-within {
+  border-color: var(--red);
+}
+
+.errorMessage {
+  color: var(--red);
+  margin-top: 8px;
+  font-size: 1.4rem;
+  font-weight: var(--font-regular);
+}

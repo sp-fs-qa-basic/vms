@@ -1,7 +1,7 @@
 import Pagination from "@/components/button/pagination/Pagination";
 import ModalLayout from "@/components/modal/ModalLayout";
 import Search from "@/components/search/Search";
-import ChoiceTable from "@/components/table/choiceTable/ChoiceTable";
+import ChoiceTable from "@/components/table/choice/ChoiceTable";
 import * as S from './choiceCompany.module.css';
 
 function ChoiceCompany ({setShow, title}) {

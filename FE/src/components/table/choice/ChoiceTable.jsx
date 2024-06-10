@@ -1,6 +1,7 @@
 import { Companies } from "@/api/mock";
 import Button from "@/components/button/Button";
 import * as S from "./choiceTable.module.css";
+import CompanyTitle from "@/components/table/company/CompanyTitle";
 
 function ChoiceTable({ title }) {
   return (
@@ -9,13 +10,7 @@ function ChoiceTable({ title }) {
       <div className={S.tableContainer}>
         {Companies.map((company, index) => (
           <div key={index} className={S.companyBox}>
-            <div className={S.company}>
-              <img src={`${company.src}`} className={S.img} />
-              <div className={S.companyTitle}>
-                <span className={S.name}>{company.name}</span>
-                <span className={S.category}>{company.category}</span>
-              </div>
-            </div>
+            <CompanyTitle src={company.src} name={company.name} category={company.category} />
             <Button name="선택하기" />
           </div>
         ))}
