@@ -36,7 +36,7 @@ app.get(
     const {
       offset = 0,
       limit = 10,
-      view = "accInvest_desc",
+      view = "",
       search = "",
     } = req.query;
 
@@ -82,6 +82,22 @@ app.get(
     const companyId = parseInt(req.params.id);
     const company = await prisma.company.findUniqueOrThrow({
       where: { id: companyId },
+    });
+    res.send(company);
+  })
+);
+
+app.post(
+  "/selections/:id",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const company = await prisma.company.update({
+      where: { id: parseInt(id) },
+      data: {
+        selectionCount: {
+          increment: 1,
+        },
+      },
     });
     res.send(company);
   })
