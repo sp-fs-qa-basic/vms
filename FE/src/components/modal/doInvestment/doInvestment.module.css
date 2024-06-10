@@ -1,3 +1,5 @@
+
+
 .titleContainer {
   display: flex;
   flex-direction: column;
@@ -9,3 +11,42 @@
   font-weight: var(--font-bold);
 }
 
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.buttonBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 16px;
+}
+
+.half_circle {
+  composes: button;
+  width: 192px;
+  padding: 13px 48px;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: var(--font-semibold);
+
+  @media all and(mobile) {
+    width: 135px;
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+}
+
+.orange_border {
+  border: 1px solid var(--orange);
+  color: var(--orange);
+}
+
+.orange_background {
+  background-color: var(--orange);
+  color: #fff;
+}

@@ -18,9 +18,9 @@ function DoInvestment({ title, setShow }) {
         <CompanyTitle src={src} name={name} category={category} />
       </div>
       <DoInvestForm method={method} />
-      <div>
-        <Button name="취소" />
-        <Button name="투자하기" />
+      <div className={S.buttonBox} >
+        <Button name="취소" className={`${S.half_circle} ${S.orange_border}`} />
+        <Button name="투자하기" className={`${S.half_circle} ${S.orange_background}`} />
       </div>
     </ModalLayout>
   );

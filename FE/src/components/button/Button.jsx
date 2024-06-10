@@ -1,8 +1,8 @@
 import * as S from './button.module.css';
 
-function Button ({name}) {
+function Button ({name, className}) {
   return (
-    <button className={S.button}>
+    <button className={`${S.button} ${className}`}>
       {name}
     </button>
   )

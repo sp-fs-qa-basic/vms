@@ -21,10 +21,6 @@
   width: 100%;
 }
 
-.inputContainer:focus-within {
-  border-color: var(--blue);
-}
-
 .input {
   all: unset;
   display: flex;

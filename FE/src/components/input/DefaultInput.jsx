@@ -29,13 +29,7 @@ function DefaultInput({
   return (
     <div className={S.container} >
       <label className={S.label} >{label}</label>
-      <div className={S.inputContainer}
-        // className={
-        //   error[name]?.message
-        //     ? `${S.inputContainer} ${S.errorBorder}`
-        //     : `${S.inputContainer}`
-        // }
-      >
+      <div className={S.inputContainer}>
         <input
           className={S.input}
           placeholder={placeholder}
