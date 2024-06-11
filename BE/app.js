@@ -35,7 +35,12 @@ function asyncHandler(handler) {
 app.get(
   "/companies",
   asyncHandler(async (req, res) => {
-    const { offset = 0, limit = 10, view = "revenueDesc", search = "" } = req.query;
+    const {
+      offset = 0,
+      limit = 10,
+      view = "revenueDesc",
+      search = "",
+    } = req.query;
 
     let orderBy;
     switch (view) {
@@ -87,6 +92,71 @@ app.get(
       where: { id: companyId },
     });
     res.send(company);
+  })
+);
+
+app.post(
+  "/companies/:companyId/comparison",
+  asyncHandler(async (req, res) => {
+    const { view = "revenueDesc" } = req.query;
+    const { companyId } = req.params;
+    const { bodyCompanyIds } = req.body;
+
+    if (!companyId || !bodyCompanyIds || !Array.isArray(bodyCompanyIds)) {
+      return res.status(400).json({
+        error:
+          "companyId URL parameter and bodyCompanyIds array in the body are required",
+      });
+    }
+
+    const companyIds = [companyId, ...bodyCompanyIds];
+
+    const companies = await prisma.company.findMany({
+      where: {
+        companyId: { in: companyIds },
+      },
+      select: {
+        companyId: true,
+        name: true,
+        description: true,
+        category: true,
+        accInvest: true,
+        revenue: true,
+        employee: true,
+      },
+    });
+
+    if (companies.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No companies found with the provided IDs" });
+    }
+
+    let sortedCompanies;
+    switch (view) {
+      case "accInvestAsc":
+        sortedCompanies = companies.sort((a, b) => a.accInvest - b.accInvest);
+        break;
+      case "accInvestDesc":
+        sortedCompanies = companies.sort((a, b) => b.accInvest - a.accInvest);
+        break;
+      case "revenueAsc":
+        sortedCompanies = companies.sort((a, b) => a.revenue - b.revenue);
+        break;
+      case "revenueDesc":
+        sortedCompanies = companies.sort((a, b) => b.revenue - a.revenue);
+        break;
+      case "employeeAsc":
+        sortedCompanies = companies.sort((a, b) => a.employee - b.employee);
+        break;
+      case "employeeDesc":
+        sortedCompanies = companies.sort((a, b) => b.employee - a.employee);
+        break;
+      default:
+        sortedCompanies = companies; // 정렬 조건이 없을 경우 기본 정렬 (기존 순서)
+    }
+
+    res.json({ companies: sortedCompanies });
   })
 );
 
