@@ -35,7 +35,12 @@ function asyncHandler(handler) {
 app.get(
   "/companies",
   asyncHandler(async (req, res) => {
-    const { offset = 0, limit = 10, view = "revenueDesc", search = "" } = req.query;
+    const {
+      offset = 0,
+      limit = 10,
+      view = "revenueDesc",
+      search = "",
+    } = req.query;
 
     let orderBy;
     switch (view) {
@@ -87,6 +92,151 @@ app.get(
       where: { id: companyId },
     });
     res.send(company);
+  })
+);
+
+app.post(
+  "/companies/:companyId/comparison",
+  asyncHandler(async (req, res) => {
+    const { view = "revenueDesc" } = req.query;
+    const { companyId } = req.params;
+    const { bodyCompanyIds } = req.body;
+
+    if (!companyId || !bodyCompanyIds || !Array.isArray(bodyCompanyIds)) {
+      return res.status(400).json({
+        error:
+          "companyId URL parameter and bodyCompanyIds array in the body are required",
+      });
+    }
+
+    const companyIds = [companyId, ...bodyCompanyIds];
+
+    const companies = await prisma.company.findMany({
+      where: {
+        companyId: { in: companyIds },
+      },
+      select: {
+        companyId: true,
+        name: true,
+        description: true,
+        category: true,
+        accInvest: true,
+        revenue: true,
+        employee: true,
+      },
+    });
+
+    if (companies.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No companies found with the provided IDs" });
+    }
+
+    let sortedCompanies;
+    switch (view) {
+      case "accInvestAsc":
+        sortedCompanies = companies.sort((a, b) => a.accInvest - b.accInvest);
+        break;
+      case "accInvestDesc":
+        sortedCompanies = companies.sort((a, b) => b.accInvest - a.accInvest);
+        break;
+      case "revenueAsc":
+        sortedCompanies = companies.sort((a, b) => a.revenue - b.revenue);
+        break;
+      case "revenueDesc":
+        sortedCompanies = companies.sort((a, b) => b.revenue - a.revenue);
+        break;
+      case "employeeAsc":
+        sortedCompanies = companies.sort((a, b) => a.employee - b.employee);
+        break;
+      case "employeeDesc":
+        sortedCompanies = companies.sort((a, b) => b.employee - a.employee);
+        break;
+      default:
+        sortedCompanies = companies; // 정렬 조건이 없을 경우 기본 정렬 (기존 순서)
+    }
+
+    res.json({ companies: sortedCompanies });
+  })
+);
+
+app.get(
+  "/companies/:companyId/rank",
+  asyncHandler(async (req, res) => {
+    const { companyId } = req.params;
+    const { view } = req.query;
+
+    if (!companyId || !view) {
+      return res.status(400).json({
+        error: "companyId URL parameter and sort query parameter are required",
+      });
+    }
+
+    const companies = await prisma.company.findMany({
+      select: {
+        companyId: true,
+        name: true,
+        description: true,
+        category: true,
+        accInvest: true,
+        revenue: true,
+        employee: true,
+      },
+    });
+
+    if (companies.length === 0) {
+      return res.status(404).json({ error: "No companies found" });
+    }
+
+    let sortedCompanies;
+    switch (view) {
+      case "accInvestAsc":
+        sortedCompanies = companies.sort((a, b) => a.accInvest - b.accInvest);
+        break;
+      case "accInvestDesc":
+        sortedCompanies = companies.sort((a, b) => b.accInvest - a.accInvest);
+        break;
+      case "revenueAsc":
+        sortedCompanies = companies.sort((a, b) => a.revenue - b.revenue);
+        break;
+      case "revenueDesc":
+        sortedCompanies = companies.sort((a, b) => b.revenue - a.revenue);
+        break;
+      case "employeeAsc":
+        sortedCompanies = companies.sort((a, b) => a.employee - b.employee);
+        break;
+      case "employeeDesc":
+        sortedCompanies = companies.sort((a, b) => b.employee - a.employee);
+        break;
+      default:
+        return res.status(400).json({ error: "Invalid sort parameter" });
+    }
+
+    // 해당 companyId를 가진 데이터의 인덱스 찾기
+    const targetIndex = sortedCompanies.findIndex(
+      (company) => company.companyId === companyId
+    );
+    if (targetIndex === -1) {
+      return res
+        .status(404)
+        .json({ error: "Company with the provided companyId not found" });
+    }
+
+    let resultCompanies;
+    if (targetIndex < 2) {
+      resultCompanies = sortedCompanies.slice(0, 5);
+    } else if (targetIndex > sortedCompanies.length - 3) {
+      resultCompanies = sortedCompanies.slice(sortedCompanies.length - 5);
+    } else {
+      const startIndex = Math.max(0, targetIndex - 2);
+      const endIndex = Math.min(sortedCompanies.length, targetIndex + 3);
+      resultCompanies = sortedCompanies.slice(startIndex, endIndex);
+    }
+
+    res.json({
+      rank: targetIndex + 1, // 순위는 0부터 시작하므로 +1
+      companies: resultCompanies,
+    });
   })
 );
 
