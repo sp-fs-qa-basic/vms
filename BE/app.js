@@ -135,10 +135,14 @@ app.post(
     let sortedCompanies;
     switch (view) {
       case "actualInvestAsc":
-        sortedCompanies = companies.sort((a, b) => a.actualInvest - b.actualInvest);
+        sortedCompanies = companies.sort(
+          (a, b) => a.actualInvest - b.actualInvest
+        );
         break;
       case "actualInvestDesc":
-        sortedCompanies = companies.sort((a, b) => b.actualInvest - a.actualInvest);
+        sortedCompanies = companies.sort(
+          (a, b) => b.actualInvest - a.actualInvest
+        );
         break;
       case "revenueAsc":
         sortedCompanies = companies.sort((a, b) => a.revenue - b.revenue);
@@ -191,10 +195,14 @@ app.get(
     let sortedCompanies;
     switch (view) {
       case "actualInvestAsc":
-        sortedCompanies = companies.sort((a, b) => a.actualInvest - b.actualInvest);
+        sortedCompanies = companies.sort(
+          (a, b) => a.actualInvest - b.actualInvest
+        );
         break;
       case "actualInvestDesc":
-        sortedCompanies = companies.sort((a, b) => b.actualInvest - a.actualInvest);
+        sortedCompanies = companies.sort(
+          (a, b) => b.actualInvest - a.actualInvest
+        );
         break;
       case "revenueAsc":
         sortedCompanies = companies.sort((a, b) => a.revenue - b.revenue);
@@ -346,15 +354,33 @@ app.post(
         .json({ error: "No company exists for the provided companyId." });
     }
 
+    const existingInvestment = await prisma.investor.findFirst({
+      where: {
+        companyId,
+      },
+    });
+
+    // 해당 companyId를 가진 투자 정보가 있는지 확인
+    const updatedCompany = await prisma.company.update({
+      where: { companyId },
+      data: {
+        simInvest: {
+          increment: amount, // simInvest 필드 증가
+        },
+      },
+    });
+
+    // 새로운 투자 정보 생성
     const newInvestment = await prisma.investor.create({
       data: {
         name,
         amount,
         comment,
         password,
-        company: { connect: { companyId } }, // 외래 키에 해당하는 회사와 연결
+        company: { connect: { companyId } },
       },
     });
+
     res.send(newInvestment);
   })
 );
