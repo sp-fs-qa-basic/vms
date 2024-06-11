@@ -22,9 +22,16 @@ function MainTable({ titles, lists }) {
             <td className={S.tdCell}>{list.name}</td>
             <td className={`${S.tdCell} ${S.introduce}`}>{list.description}</td>
             <td className={S.tdCell}>{list.category}</td>
-            <td className={S.tdCell}>{list.actualInvest}억 원</td>
-            <td className={S.tdCell}>{list.revenue}억 원</td>
-            <td className={S.tdCell}>{list.employee}명</td>
+            {list.actualInvest && (
+              <td className={S.tdCell}>{list.actualInvest}억 원</td>
+            )}
+            {list.revenue && <td className={S.tdCell}>{list.revenue}억 원</td>}
+            {list.mySelectionCount && (
+              <td className={S.tdCell}>{list.mySelectionCount}명</td>
+            )}
+            {list.comparedSelectionCount && (
+              <td className={S.tdCell}>{list.comparedSelectionCount}명</td>
+            )}
           </tr>
         ))}
       </tbody>
