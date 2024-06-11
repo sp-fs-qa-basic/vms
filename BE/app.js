@@ -243,7 +243,7 @@ app.get(
 app.get(
   "/selections",
   asyncHandler(async (req, res) => {
-    const { view = "mySelectionDesc" } = req.query;
+    const { view = "mySelectionDesc", offset = 0, limit = 10 } = req.query;
 
     let orderBy;
     switch (view) {
@@ -273,6 +273,8 @@ app.get(
         mySelectionCount: true,
         comparedSelectionCount: true,
       },
+      skip: parseInt(offset),
+      take: parseInt(limit),
       orderBy,
     });
     res.send(companies);
