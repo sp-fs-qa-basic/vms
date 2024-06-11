@@ -269,6 +269,7 @@ app.get(
         id: true,
         companyId: true,
         name: true,
+        category: true,
         description: true,
         mySelectionCount: true,
         comparedSelectionCount: true,
