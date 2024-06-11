@@ -1,7 +1,6 @@
 import * as S from './mainTable.module.css';
-import {StartupLists} from '@/api/mock'
 
-function MainTable ({titles}) {
+function MainTable ({titles, lists}) {
   return (
     <table className={S.tableContainer}>
       <thead >
@@ -15,14 +14,15 @@ function MainTable ({titles}) {
         <tr>
           <td colSpan={titles.length} className={S.theadGap}></td>
         </tr>
-          {StartupLists.map((list, index) => (
-            <tr key={index} className={S.td}>
+          {lists.map((list, index) => (
+            <tr key={list.id} className={S.td}>
+              <td className={S.tdCell}>{index+1}위</td>
               <td className={S.tdCell}>{list.name}</td>
-              <td className={`${S.tdCell} ${S.introduce}`}>{list.introduce}</td>
+              <td className={`${S.tdCell} ${S.introduce}`}>{list.description}</td>
               <td className={S.tdCell}>{list.category}</td>
-              <td className={S.tdCell}>{list.cumulative}</td>
-              <td className={S.tdCell}>{list.revenues}</td>
-              <td className={S.tdCell}>{list.employee}</td>
+              <td className={S.tdCell}>{list.actualInvest}억 원</td>
+              <td className={S.tdCell}>{list.revenue}억 원</td>
+              <td className={S.tdCell}>{list.employee}명</td>
             </tr>
           ))}
       </tbody>

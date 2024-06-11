@@ -1,10 +1,10 @@
 export const sortList = [
-  '누적 투자 금액 높은순',
-  '누적 투자 금액 낮은순',
-  '매출액 높은순',
-  '매출액 낮은순',
-  '고용 인원 많은순',
-  '고용 인원 적은순'
+  {label : '누적 투자 금액 높은순', view : 'actualInvestDesc'},
+  {label :'누적 투자 금액 낮은순', view : 'actualInvestAsc'},
+  {label : '매출액 높은순', view : 'revenueDesc'},
+  {label : '매출액 낮은순', view : 'revenueAsc'},
+  {label :'고용 인원 많은순', view : 'employeeDesc'},
+  {label : '고용 인원 적은순', view : 'employeeAsc'}
 ]
 
 export const investmentSortList = [

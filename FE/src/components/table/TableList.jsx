@@ -12,9 +12,9 @@ function TableList({ lists, setValue }) {
           <tr
             key={index}
             className={S.trContainer}
-            onClick={() => handleSetValue(list)}
+            onClick={() => handleSetValue(list.label)}
           >
-            <td className={S.td}>{list}</td>
+            <td className={S.td}>{list.label}</td>
           </tr>
         ))}
       </tbody>

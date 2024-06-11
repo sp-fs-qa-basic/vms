@@ -14,7 +14,7 @@ async function sendApiRequest(option) {
       url: option.endpoint,
       data: option.data,
       params: option.params,
-      headers,
+      headers: option.headers
     });
 
     return response;

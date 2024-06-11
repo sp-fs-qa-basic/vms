@@ -4,15 +4,14 @@ import TableList from "@/components/table/TableList";
 import useShowDropDown from "@/hooks/useShowDropDown";
 import * as S from "./dropdown.module.css";
 
-function DropDown({ list }) {
+function DropDown({ list, dropdownValue, setValue }) {
   const ref = useRef();
   const [showOptions, setShowOptions] = useShowDropDown(ref, false);
-  const [value, setValue] = useState(list[2]);
 
   return (
     <div className={S.container}>
       <div className={S.dropdownContainer} ref={ref}>
-        {value}
+        {dropdownValue}
         <ToggleImg onClick={() => setShowOptions(!showOptions)} />
       </div>
       {showOptions && <TableList lists={list} setValue={setValue} />}
