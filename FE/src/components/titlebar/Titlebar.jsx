@@ -1,6 +1,6 @@
 import Search from "@/components/search/Search";
-import * as S from "./titlebar.module.css";
 import DropDown from "@/components/dropdown/DropDown";
+import * as S from "./titlebar.module.css";
 
 function Titlebar({ title, list, dropdownValue, setDropdownValue }) {
   return (

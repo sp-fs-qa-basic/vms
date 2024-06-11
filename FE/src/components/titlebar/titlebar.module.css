@@ -1,3 +1,5 @@
+@value mobile from '@/styles/breakpoint.css';
+
 .container {
   display: flex;
   justify-content: space-between;
@@ -7,6 +9,11 @@
   font-size: 20px;
   font-weight: var(--font-bold);
 
+  @media all and (mobile) {
+    display: grid;
+    gap: 16px;
+    font-size: 16px;
+  }
 }
 
 .box {
