@@ -396,23 +396,6 @@ app.post(
         .json({ error: "No company exists for the provided companyId." });
     }
 
-    const existingInvestment = await prisma.investor.findFirst({
-      where: {
-        companyId,
-      },
-    });
-
-    // 해당 companyId를 가진 투자 정보가 있는지 확인
-    const updatedCompany = await prisma.company.update({
-      where: { companyId },
-      data: {
-        simInvest: {
-          increment: amount, // simInvest 필드 증가
-        },
-      },
-    });
-
-    // 새로운 투자 정보 생성
     const newInvestment = await prisma.investor.create({
       data: {
         name,
@@ -423,7 +406,16 @@ app.post(
       },
     });
 
-    res.send(newInvestment);
+    await prisma.company.update({
+      where: { companyId },
+      data: {
+        simInvest: {
+          increment: amount, // simInvest 필드 증가
+        },
+      },
+    });
+
+    res.send({ id: newInvestment.id, companyId: newInvestment.companyId });
   })
 );
 
@@ -458,6 +450,17 @@ app.patch(
     const { id } = req.params;
     const { name, amount, comment, password } = req.body;
 
+    const existingInvestment = await prisma.investor.findUnique({
+      where: { id },
+    });
+
+    if (!existingInvestment) {
+      return res.status(404).json({ error: "Investment not found." });
+    }
+
+    // 기존 투자 금액을 계산하여 업데이트할 simInvest 값을 조정합니다.
+    const amountDifference = amount - existingInvestment.amount;
+
     const updatedInvestor = await prisma.investor.update({
       where: { id },
       data: {
@@ -467,6 +470,17 @@ app.patch(
         password,
       },
     });
+
+    // simInvest 업데이트
+    await prisma.company.update({
+      where: { companyId: existingInvestment.companyId },
+      data: {
+        simInvest: {
+          increment: amountDifference, // 기존 투자 금액을 반영하여 simInvest 필드 증가/감소
+        },
+      },
+    });
+
     res.json(updatedInvestor);
   })
 );
