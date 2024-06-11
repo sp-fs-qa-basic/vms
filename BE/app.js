@@ -294,13 +294,37 @@ app.post(
       return res.status(404).json({ error: "Company not found" });
     }
 
-    const updatedCompany = await prisma.company.update({
+    await prisma.company.update({
       where: { companyId },
       data: { mySelectionCount: company.mySelectionCount + 1 },
     });
 
     res.json({
       message: "My company selection count updated",
+    });
+  })
+);
+
+app.post(
+  "/selections/:companyId/compared-company",
+  asyncHandler(async (req, res) => {
+    const { companyId } = req.params;
+
+    const company = await prisma.company.findUnique({
+      where: { companyId },
+    });
+
+    if (!company) {
+      return res.status(404).json({ error: "Company not found" });
+    }
+
+    await prisma.company.update({
+      where: { companyId },
+      data: { comparedSelectionCount: company.comparedSelectionCount + 1 },
+    });
+
+    res.json({
+      message: "Compared company selection count updated",
     });
   })
 );
