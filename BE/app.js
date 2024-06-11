@@ -243,15 +243,21 @@ app.get(
 app.get(
   "/selections",
   asyncHandler(async (req, res) => {
-    const { view = "" } = req.query;
+    const { view = "mySelectionDesc" } = req.query;
 
     let orderBy;
     switch (view) {
-      case "selectionAsc":
-        orderBy = { selectionCount: "asc" };
+      case "mySelectionAsc":
+        orderBy = { mySelectionCount: "asc" };
         break;
-      case "selectionDesc":
-        orderBy = { selectionCount: "desc" };
+      case "mySelectionDesc":
+        orderBy = { mySelectionCount: "desc" };
+        break;
+      case "comparedSelectionAsc":
+        orderBy = { comparedSelectionCount: "asc" };
+        break;
+      case "comparedSelectionDesc":
+        orderBy = { comparedSelectionCount: "desc" };
         break;
       default:
         orderBy = { id: "asc" };
@@ -262,7 +268,10 @@ app.get(
       select: {
         id: true,
         companyId: true,
-        selectionCount: true,
+        name: true,
+        description: true,
+        mySelectionCount: true,
+        comparedSelectionCount: true,
       },
       orderBy,
     });
