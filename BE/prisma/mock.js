@@ -11,7 +11,8 @@ export const COMPANIES = [
     employee: 10,
     createdAt: "2024-06-09T08:14:40.548Z",
     updatedAt: "2024-06-09T08:17:03.933Z",
-    selectionCount: 1,
+    mySelectionCount: 1,
+    comparedSelectionCount: 3,
   },
   {
     id: 2,
@@ -25,7 +26,8 @@ export const COMPANIES = [
     employee: 34,
     createdAt: "2024-06-09T08:17:03.933Z",
     updatedAt: "2024-06-09T08:15:06.270Z",
-    selectionCount: 2,
+    mySelectionCount: 1,
+    comparedSelectionCount: 3,
   },
   {
     id: 3,
@@ -39,7 +41,8 @@ export const COMPANIES = [
     employee: 24,
     createdAt: "2024-06-09T08:17:34.007Z",
     updatedAt: "2024-06-09T08:17:09.818Z",
-    selectionCount: 3,
+    mySelectionCount: 1,
+    comparedSelectionCount: 3,
   },
   {
     id: 4,
@@ -53,7 +56,8 @@ export const COMPANIES = [
     employee: 102,
     createdAt: "2024-06-09T08:30:00.007Z",
     updatedAt: "2024-06-09T08:30:00.818Z",
-    selectionCount: 4,
+    mySelectionCount: 1,
+    comparedSelectionCount: 3,
   },
   {
     id: 5,
@@ -67,7 +71,8 @@ export const COMPANIES = [
     employee: 10,
     createdAt: "2024-06-09T08:31:00.007Z",
     updatedAt: "2024-06-09T08:32:00.818Z",
-    selectionCount: 5,
+    mySelectionCount: 1,
+    comparedSelectionCount: 3,
   },
   {
     id: 6,
@@ -81,6 +86,7 @@ export const COMPANIES = [
     employee: 44,
     createdAt: "2024-06-09T08:33:00.007Z",
     updatedAt: "2024-06-09T08:34:00.818Z",
-    selectionCount: 6,
+    mySelectionCount: 1,
+    comparedSelectionCount: 3,
   },
 ];

@@ -14,15 +14,16 @@ datasource db {
 }
 
 model Company {
-  id             Int      @id @default(autoincrement())
-  companyId      String   @unique @default(uuid())
-  name           String
-  description    String
-  category       Category
-  accInvest      Float
-  revenue        Float
-  employee       Int
-  selectionCount Int      @default(0)
+  id                     Int      @id @default(autoincrement())
+  companyId              String   @unique @default(uuid())
+  name                   String
+  description            String
+  category               Category
+  accInvest              Float
+  revenue                Float
+  employee               Int
+  mySelectionCount       Int      @default(0)
+  comparedSelectionCount Int      @default(0)
 
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -37,7 +38,7 @@ enum Category {
 }
 
 model Investor {
-  id        String    @id @default(uuid())
+  id        String @id @default(uuid())
   name      String
   companyId String
   amount    Float

@@ -271,18 +271,26 @@ app.get(
 );
 
 app.post(
-  "/selections/:id",
+  "/selections/:companyId/my-company",
   asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const company = await prisma.company.update({
-      where: { id: parseInt(id) },
-      data: {
-        selectionCount: {
-          increment: 1,
-        },
-      },
+    const { companyId } = req.params;
+
+    const company = await prisma.company.findUnique({
+      where: { companyId },
     });
-    res.send(company);
+
+    if (!company) {
+      return res.status(404).json({ error: "Company not found" });
+    }
+
+    const updatedCompany = await prisma.company.update({
+      where: { companyId },
+      data: { mySelectionCount: company.mySelectionCount + 1 },
+    });
+
+    res.json({
+      message: "My company selection count updated",
+    });
   })
 );
 
