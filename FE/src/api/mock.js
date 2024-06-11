@@ -181,10 +181,10 @@ export const StartupLists = [
   },
 ];
 
-import Company1 from '@/assets/icons/company1.svg';
-import Company2 from '@/assets/icons/company2.svg';
-import Company3 from '@/assets/icons/company3.svg';
-import Company4 from '@/assets/icons/company4.svg';
+import Company1 from "@/assets/icons/company1.svg";
+import Company2 from "@/assets/icons/company2.svg";
+import Company3 from "@/assets/icons/company3.svg";
+import Company4 from "@/assets/icons/company4.svg";
 
 export const Companies = [
   {
@@ -216,5 +216,33 @@ export const Companies = [
     name: "코드스테이츠",
     category: "에듀테크",
     src: Company4,
+  },
+];
+
+export const Investors = [
+  {
+    investor: "김연우",
+    amount: "10",
+    comment: "코드잇은 정말 훌륭한 기업입니다!",
+  },
+  {
+    investor: "이유지",
+    amount: "9",
+    comment: "코드잇의 성장 가능성은 무궁무진합니다!",
+  },
+  {
+    investor: "안다혜",
+    amount: "8",
+    comment: "최고의 기업! 코드잇!",
+  },
+  {
+    investor: "신희성",
+    amount: "7",
+    comment: "코드잇은 진출 분야는 무궁무진합니다.",
+  },
+  {
+    investor: "이용섭",
+    amount: "6",
+    comment: "교육업계의 라이징 스타 코드잇을 신뢰합니다.",
   },
 ];

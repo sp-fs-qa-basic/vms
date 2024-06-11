@@ -1,0 +1,9 @@
+.img {
+  position: relative;
+}
+
+.list {
+  position: absolute;
+  bottom: 8px;
+  right: 0px;
+}

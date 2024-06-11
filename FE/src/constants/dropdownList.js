@@ -13,3 +13,7 @@ export const investmentSortList = [
   '실제 누적 투자 금액 높은순',
   '실제 누적 투자 금액 높은순',
 ]
+
+export const updateDelete = [
+  '수정하기', '삭제하기'
+]
