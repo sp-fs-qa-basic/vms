@@ -1,5 +1,7 @@
 import { InvestmentTitles as titles } from "@/constants/titleList";
 import { Investors } from "@/api/mock";
+import Kebab from "@/components/button/kebab/Kebab";
+import { updateDelete } from '@/constants/dropdownList';
 
 function InvestmentTable () {
   return (
@@ -21,6 +23,7 @@ function InvestmentTable () {
               <td className={S.tdCell}>{index+1}</td>
               <td className={S.tdCell}>{investor.amount}</td>
               <td className={`${S.tdCell} ${S.comment}`}>{list.comment}</td>
+              <Kebab lists={updateDelete}/>
             </tr>
           ))}
       </tbody>
