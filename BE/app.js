@@ -35,15 +35,20 @@ function asyncHandler(handler) {
 app.get(
   "/companies",
   asyncHandler(async (req, res) => {
-    const { offset = 0, limit = 10, view = "revenueDesc", search = "" } = req.query;
+    const {
+      offset = 0,
+      limit = 10,
+      view = "revenueDesc",
+      search = "",
+    } = req.query;
 
     let orderBy;
     switch (view) {
-      case "accInvestDesc":
-        orderBy = { accInvest: "desc" };
+      case "actualInvestDesc":
+        orderBy = { actualInvest: "desc" };
         break;
-      case "accInvestAsc":
-        orderBy = { accInvest: "asc" };
+      case "actualInvestAsc":
+        orderBy = { actualInvest: "asc" };
         break;
       case "revenueDesc":
         orderBy = { revenue: "desc" };
@@ -80,28 +85,187 @@ app.get(
 );
 
 app.get(
-  "/companies/:id",
+  "/companies/:companyId",
   asyncHandler(async (req, res) => {
-    const companyId = parseInt(req.params.id);
+    const { companyId } = req.params;
     const company = await prisma.company.findUniqueOrThrow({
-      where: { id: companyId },
+      where: { companyId },
     });
     res.send(company);
+  })
+);
+
+app.post(
+  "/companies/:companyId/comparison",
+  asyncHandler(async (req, res) => {
+    const { view = "revenueDesc" } = req.query;
+    const { companyId } = req.params;
+    const { bodyCompanyIds } = req.body;
+
+    if (!companyId || !bodyCompanyIds || !Array.isArray(bodyCompanyIds)) {
+      return res.status(400).json({
+        error:
+          "companyId URL parameter and bodyCompanyIds array in the body are required",
+      });
+    }
+
+    const companyIds = [companyId, ...bodyCompanyIds];
+
+    const companies = await prisma.company.findMany({
+      where: {
+        companyId: { in: companyIds },
+      },
+      select: {
+        companyId: true,
+        name: true,
+        description: true,
+        category: true,
+        actualInvest: true,
+        revenue: true,
+        employee: true,
+      },
+    });
+
+    if (companies.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No companies found with the provided IDs" });
+    }
+
+    let sortedCompanies;
+    switch (view) {
+      case "actualInvestAsc":
+        sortedCompanies = companies.sort(
+          (a, b) => a.actualInvest - b.actualInvest
+        );
+        break;
+      case "actualInvestDesc":
+        sortedCompanies = companies.sort(
+          (a, b) => b.actualInvest - a.actualInvest
+        );
+        break;
+      case "revenueAsc":
+        sortedCompanies = companies.sort((a, b) => a.revenue - b.revenue);
+        break;
+      case "revenueDesc":
+        sortedCompanies = companies.sort((a, b) => b.revenue - a.revenue);
+        break;
+      case "employeeAsc":
+        sortedCompanies = companies.sort((a, b) => a.employee - b.employee);
+        break;
+      case "employeeDesc":
+        sortedCompanies = companies.sort((a, b) => b.employee - a.employee);
+        break;
+      default:
+        sortedCompanies = companies; // 정렬 조건이 없을 경우 기본 정렬 (기존 순서)
+    }
+
+    res.json({ companies: sortedCompanies });
+  })
+);
+
+app.get(
+  "/companies/:companyId/rank",
+  asyncHandler(async (req, res) => {
+    const { companyId } = req.params;
+    const { view } = req.query;
+
+    if (!companyId || !view) {
+      return res.status(400).json({
+        error: "companyId URL parameter and sort query parameter are required",
+      });
+    }
+
+    const companies = await prisma.company.findMany({
+      select: {
+        companyId: true,
+        name: true,
+        description: true,
+        category: true,
+        actualInvest: true,
+        revenue: true,
+        employee: true,
+      },
+    });
+
+    if (companies.length === 0) {
+      return res.status(404).json({ error: "No companies found" });
+    }
+
+    let sortedCompanies;
+    switch (view) {
+      case "actualInvestAsc":
+        sortedCompanies = companies.sort(
+          (a, b) => a.actualInvest - b.actualInvest
+        );
+        break;
+      case "actualInvestDesc":
+        sortedCompanies = companies.sort(
+          (a, b) => b.actualInvest - a.actualInvest
+        );
+        break;
+      case "revenueAsc":
+        sortedCompanies = companies.sort((a, b) => a.revenue - b.revenue);
+        break;
+      case "revenueDesc":
+        sortedCompanies = companies.sort((a, b) => b.revenue - a.revenue);
+        break;
+      case "employeeAsc":
+        sortedCompanies = companies.sort((a, b) => a.employee - b.employee);
+        break;
+      case "employeeDesc":
+        sortedCompanies = companies.sort((a, b) => b.employee - a.employee);
+        break;
+      default:
+        return res.status(400).json({ error: "Invalid sort parameter" });
+    }
+
+    // 해당 companyId를 가진 데이터의 인덱스 찾기
+    const targetIndex = sortedCompanies.findIndex(
+      (company) => company.companyId === companyId
+    );
+    if (targetIndex === -1) {
+      return res
+        .status(404)
+        .json({ error: "Company with the provided companyId not found" });
+    }
+
+    let resultCompanies;
+    if (targetIndex < 2) {
+      resultCompanies = sortedCompanies.slice(0, 5);
+    } else if (targetIndex > sortedCompanies.length - 3) {
+      resultCompanies = sortedCompanies.slice(sortedCompanies.length - 5);
+    } else {
+      const startIndex = Math.max(0, targetIndex - 2);
+      const endIndex = Math.min(sortedCompanies.length, targetIndex + 3);
+      resultCompanies = sortedCompanies.slice(startIndex, endIndex);
+    }
+
+    res.json({
+      rank: targetIndex + 1, // 순위는 0부터 시작하므로 +1
+      companies: resultCompanies,
+    });
   })
 );
 
 app.get(
   "/selections",
   asyncHandler(async (req, res) => {
-    const { view = "" } = req.query;
+    const { view = "mySelectionDesc", offset = 0, limit = 10 } = req.query;
 
     let orderBy;
     switch (view) {
-      case "selectionAsc":
-        orderBy = { selectionCount: "asc" };
+      case "mySelectionAsc":
+        orderBy = { mySelectionCount: "asc" };
         break;
-      case "selectionDesc":
-        orderBy = { selectionCount: "desc" };
+      case "mySelectionDesc":
+        orderBy = { mySelectionCount: "desc" };
+        break;
+      case "comparedSelectionAsc":
+        orderBy = { comparedSelectionCount: "asc" };
+        break;
+      case "comparedSelectionDesc":
+        orderBy = { comparedSelectionCount: "desc" };
         break;
       default:
         orderBy = { id: "asc" };
@@ -112,8 +276,14 @@ app.get(
       select: {
         id: true,
         companyId: true,
-        selectionCount: true,
+        name: true,
+        category: true,
+        description: true,
+        mySelectionCount: true,
+        comparedSelectionCount: true,
       },
+      skip: parseInt(offset),
+      take: parseInt(limit),
       orderBy,
     });
     res.send(companies);
@@ -121,18 +291,50 @@ app.get(
 );
 
 app.post(
-  "/selections/:id",
+  "/selections/:companyId/my-company",
   asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const company = await prisma.company.update({
-      where: { id: parseInt(id) },
-      data: {
-        selectionCount: {
-          increment: 1,
-        },
-      },
+    const { companyId } = req.params;
+
+    const company = await prisma.company.findUnique({
+      where: { companyId },
     });
-    res.send(company);
+
+    if (!company) {
+      return res.status(404).json({ error: "Company not found" });
+    }
+
+    await prisma.company.update({
+      where: { companyId },
+      data: { mySelectionCount: company.mySelectionCount + 1 },
+    });
+
+    res.json({
+      message: "My company selection count updated",
+    });
+  })
+);
+
+app.post(
+  "/selections/:companyId/compared-company",
+  asyncHandler(async (req, res) => {
+    const { companyId } = req.params;
+
+    const company = await prisma.company.findUnique({
+      where: { companyId },
+    });
+
+    if (!company) {
+      return res.status(404).json({ error: "Company not found" });
+    }
+
+    await prisma.company.update({
+      where: { companyId },
+      data: { comparedSelectionCount: company.comparedSelectionCount + 1 },
+    });
+
+    res.json({
+      message: "Compared company selection count updated",
+    });
   })
 );
 
@@ -152,15 +354,33 @@ app.post(
         .json({ error: "No company exists for the provided companyId." });
     }
 
+    const existingInvestment = await prisma.investor.findFirst({
+      where: {
+        companyId,
+      },
+    });
+
+    // 해당 companyId를 가진 투자 정보가 있는지 확인
+    const updatedCompany = await prisma.company.update({
+      where: { companyId },
+      data: {
+        simInvest: {
+          increment: amount, // simInvest 필드 증가
+        },
+      },
+    });
+
+    // 새로운 투자 정보 생성
     const newInvestment = await prisma.investor.create({
       data: {
         name,
         amount,
         comment,
         password,
-        company: { connect: { companyId } }, // 외래 키에 해당하는 회사와 연결
+        company: { connect: { companyId } },
       },
     });
+
     res.send(newInvestment);
   })
 );
