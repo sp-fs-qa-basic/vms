@@ -44,11 +44,11 @@ app.get(
 
     let orderBy;
     switch (view) {
-      case "accInvestDesc":
-        orderBy = { accInvest: "desc" };
+      case "actualInvestDesc":
+        orderBy = { actualInvest: "desc" };
         break;
-      case "accInvestAsc":
-        orderBy = { accInvest: "asc" };
+      case "actualInvestAsc":
+        orderBy = { actualInvest: "asc" };
         break;
       case "revenueDesc":
         orderBy = { revenue: "desc" };
@@ -85,11 +85,11 @@ app.get(
 );
 
 app.get(
-  "/companies/:id",
+  "/companies/:companyId",
   asyncHandler(async (req, res) => {
-    const companyId = parseInt(req.params.id);
+    const { companyId } = req.params;
     const company = await prisma.company.findUniqueOrThrow({
-      where: { id: companyId },
+      where: { companyId },
     });
     res.send(company);
   })
@@ -120,7 +120,7 @@ app.post(
         name: true,
         description: true,
         category: true,
-        accInvest: true,
+        actualInvest: true,
         revenue: true,
         employee: true,
       },
@@ -134,11 +134,15 @@ app.post(
 
     let sortedCompanies;
     switch (view) {
-      case "accInvestAsc":
-        sortedCompanies = companies.sort((a, b) => a.accInvest - b.accInvest);
+      case "actualInvestAsc":
+        sortedCompanies = companies.sort(
+          (a, b) => a.actualInvest - b.actualInvest
+        );
         break;
-      case "accInvestDesc":
-        sortedCompanies = companies.sort((a, b) => b.accInvest - a.accInvest);
+      case "actualInvestDesc":
+        sortedCompanies = companies.sort(
+          (a, b) => b.actualInvest - a.actualInvest
+        );
         break;
       case "revenueAsc":
         sortedCompanies = companies.sort((a, b) => a.revenue - b.revenue);
@@ -178,7 +182,7 @@ app.get(
         name: true,
         description: true,
         category: true,
-        accInvest: true,
+        actualInvest: true,
         revenue: true,
         employee: true,
       },
@@ -190,11 +194,15 @@ app.get(
 
     let sortedCompanies;
     switch (view) {
-      case "accInvestAsc":
-        sortedCompanies = companies.sort((a, b) => a.accInvest - b.accInvest);
+      case "actualInvestAsc":
+        sortedCompanies = companies.sort(
+          (a, b) => a.actualInvest - b.actualInvest
+        );
         break;
-      case "accInvestDesc":
-        sortedCompanies = companies.sort((a, b) => b.accInvest - a.accInvest);
+      case "actualInvestDesc":
+        sortedCompanies = companies.sort(
+          (a, b) => b.actualInvest - a.actualInvest
+        );
         break;
       case "revenueAsc":
         sortedCompanies = companies.sort((a, b) => a.revenue - b.revenue);
@@ -243,15 +251,21 @@ app.get(
 app.get(
   "/selections",
   asyncHandler(async (req, res) => {
-    const { view = "" } = req.query;
+    const { view = "mySelectionDesc", offset = 0, limit = 10 } = req.query;
 
     let orderBy;
     switch (view) {
-      case "selectionAsc":
-        orderBy = { selectionCount: "asc" };
+      case "mySelectionAsc":
+        orderBy = { mySelectionCount: "asc" };
         break;
-      case "selectionDesc":
-        orderBy = { selectionCount: "desc" };
+      case "mySelectionDesc":
+        orderBy = { mySelectionCount: "desc" };
+        break;
+      case "comparedSelectionAsc":
+        orderBy = { comparedSelectionCount: "asc" };
+        break;
+      case "comparedSelectionDesc":
+        orderBy = { comparedSelectionCount: "desc" };
         break;
       default:
         orderBy = { id: "asc" };
@@ -262,8 +276,14 @@ app.get(
       select: {
         id: true,
         companyId: true,
-        selectionCount: true,
+        name: true,
+        category: true,
+        description: true,
+        mySelectionCount: true,
+        comparedSelectionCount: true,
       },
+      skip: parseInt(offset),
+      take: parseInt(limit),
       orderBy,
     });
     res.send(companies);
@@ -271,18 +291,50 @@ app.get(
 );
 
 app.post(
-  "/selections/:id",
+  "/selections/:companyId/my-company",
   asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const company = await prisma.company.update({
-      where: { id: parseInt(id) },
-      data: {
-        selectionCount: {
-          increment: 1,
-        },
-      },
+    const { companyId } = req.params;
+
+    const company = await prisma.company.findUnique({
+      where: { companyId },
     });
-    res.send(company);
+
+    if (!company) {
+      return res.status(404).json({ error: "Company not found" });
+    }
+
+    await prisma.company.update({
+      where: { companyId },
+      data: { mySelectionCount: company.mySelectionCount + 1 },
+    });
+
+    res.json({
+      message: "My company selection count updated",
+    });
+  })
+);
+
+app.post(
+  "/selections/:companyId/compared-company",
+  asyncHandler(async (req, res) => {
+    const { companyId } = req.params;
+
+    const company = await prisma.company.findUnique({
+      where: { companyId },
+    });
+
+    if (!company) {
+      return res.status(404).json({ error: "Company not found" });
+    }
+
+    await prisma.company.update({
+      where: { companyId },
+      data: { comparedSelectionCount: company.comparedSelectionCount + 1 },
+    });
+
+    res.json({
+      message: "Compared company selection count updated",
+    });
   })
 );
 
@@ -302,15 +354,33 @@ app.post(
         .json({ error: "No company exists for the provided companyId." });
     }
 
+    const existingInvestment = await prisma.investor.findFirst({
+      where: {
+        companyId,
+      },
+    });
+
+    // 해당 companyId를 가진 투자 정보가 있는지 확인
+    const updatedCompany = await prisma.company.update({
+      where: { companyId },
+      data: {
+        simInvest: {
+          increment: amount, // simInvest 필드 증가
+        },
+      },
+    });
+
+    // 새로운 투자 정보 생성
     const newInvestment = await prisma.investor.create({
       data: {
         name,
         amount,
         comment,
         password,
-        company: { connect: { companyId } }, // 외래 키에 해당하는 회사와 연결
+        company: { connect: { companyId } },
       },
     });
+
     res.send(newInvestment);
   })
 );

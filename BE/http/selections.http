@@ -1,7 +1,8 @@
-GET http://localhost:3000/selections
+GET http://localhost:3000/selections?view=mySelectionDesc&limit=10&offset=0
 
 ### 
-GET http://localhost:3000/selections?view=selectionAsc
+POST http://localhost:3000/selections/d1f9c0a8-251e-469d-9b8c-1e6e84f1de21/my-company
 
 ### 
-POST http://localhost:3000/selections/3f89b7b2-d0e8-4d9e-bc4e-4c88709c1e76
+POST http://localhost:3000/selections/d1f9c0a8-251e-469d-9b8c-1e6e84f1de21/compared-company
+
