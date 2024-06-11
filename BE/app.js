@@ -161,6 +161,86 @@ app.post(
 );
 
 app.get(
+  "/companies/:companyId/rank",
+  asyncHandler(async (req, res) => {
+    const { companyId } = req.params;
+    const { view } = req.query;
+
+    if (!companyId || !view) {
+      return res.status(400).json({
+        error: "companyId URL parameter and sort query parameter are required",
+      });
+    }
+
+    const companies = await prisma.company.findMany({
+      select: {
+        companyId: true,
+        name: true,
+        description: true,
+        category: true,
+        accInvest: true,
+        revenue: true,
+        employee: true,
+      },
+    });
+
+    if (companies.length === 0) {
+      return res.status(404).json({ error: "No companies found" });
+    }
+
+    let sortedCompanies;
+    switch (view) {
+      case "accInvestAsc":
+        sortedCompanies = companies.sort((a, b) => a.accInvest - b.accInvest);
+        break;
+      case "accInvestDesc":
+        sortedCompanies = companies.sort((a, b) => b.accInvest - a.accInvest);
+        break;
+      case "revenueAsc":
+        sortedCompanies = companies.sort((a, b) => a.revenue - b.revenue);
+        break;
+      case "revenueDesc":
+        sortedCompanies = companies.sort((a, b) => b.revenue - a.revenue);
+        break;
+      case "employeeAsc":
+        sortedCompanies = companies.sort((a, b) => a.employee - b.employee);
+        break;
+      case "employeeDesc":
+        sortedCompanies = companies.sort((a, b) => b.employee - a.employee);
+        break;
+      default:
+        return res.status(400).json({ error: "Invalid sort parameter" });
+    }
+
+    // 해당 companyId를 가진 데이터의 인덱스 찾기
+    const targetIndex = sortedCompanies.findIndex(
+      (company) => company.companyId === companyId
+    );
+    if (targetIndex === -1) {
+      return res
+        .status(404)
+        .json({ error: "Company with the provided companyId not found" });
+    }
+
+    let resultCompanies;
+    if (targetIndex < 2) {
+      resultCompanies = sortedCompanies.slice(0, 5);
+    } else if (targetIndex > sortedCompanies.length - 3) {
+      resultCompanies = sortedCompanies.slice(sortedCompanies.length - 5);
+    } else {
+      const startIndex = Math.max(0, targetIndex - 2);
+      const endIndex = Math.min(sortedCompanies.length, targetIndex + 3);
+      resultCompanies = sortedCompanies.slice(startIndex, endIndex);
+    }
+
+    res.json({
+      rank: targetIndex + 1, // 순위는 0부터 시작하므로 +1
+      companies: resultCompanies,
+    });
+  })
+);
+
+app.get(
   "/selections",
   asyncHandler(async (req, res) => {
     const { view = "" } = req.query;

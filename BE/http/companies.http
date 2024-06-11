@@ -20,3 +20,8 @@ Content-Type: application/json
     "6ed357d8-79f2-46eb-921b-7744c6e53a99"
   ]
 }
+
+###
+
+GET http://localhost:3000/companies/3f89b7b2-d0e8-4d9e-bc4e-4c88709c1e76/rank?view=revenueAsc
+
