@@ -1,4 +1,5 @@
 export const MainTitleList = [
+  "순위",
   "기업명",
   "기업 소개",
   "카테고리",

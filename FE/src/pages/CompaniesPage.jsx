@@ -1,13 +1,33 @@
+import { getCompanies } from "@/api/company";
 import MainTableLayout from "@/components/layout/mainTable/MainTableLayout";
 import MainTable from "@/components/table/mainTable/MainTable";
 import { sortList } from "@/constants/dropdownList";
 import { MainTitleList } from "@/constants/titleList";
+import { useEffect, useState } from "react";
 
 function CompaniesPage() {
+  const [companies, setCompanies] = useState([]);
+  const [dropdownValue, setDropdownValue] = useState(sortList[2].label);
+
+  
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      const {view} = sortList.find((list) => list['label'] === dropdownValue);
+      const company = await getCompanies(null, null, null, null, view); 
+      setCompanies(company.data);
+    };
+    fetchCompanies();
+  }, [dropdownValue]); 
+
   return (
     <>
-      <MainTableLayout title="전체 스타트업 목록" list={sortList}>
-        <MainTable titles={MainTitleList} />
+      <MainTableLayout
+        title="전체 스타트업 목록"
+        list={sortList}
+        dropdownValue={dropdownValue}
+        setDropdownValue={setDropdownValue}
+      >
+        <MainTable titles={MainTitleList} lists={companies} />
       </MainTableLayout>
     </>
   );

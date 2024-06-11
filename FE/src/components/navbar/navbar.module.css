@@ -48,3 +48,8 @@
     font-size: 12px;
   }
 }
+
+.focus {
+  font-weight: var(--font-bold);
+  color: #fff;
+}
