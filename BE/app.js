@@ -338,6 +338,48 @@ app.post(
   })
 );
 
+app.get(
+  "/investments",
+  asyncHandler(async (req, res) => {
+    const { offset = 0, limit = 10, view = "simInvestDesc" } = req.query;
+
+    let orderBy;
+    switch (view) {
+      case "actualInvestDesc":
+        orderBy = { actualInvest: "desc" };
+        break;
+      case "actualInvestAsc":
+        orderBy = { actualInvest: "asc" };
+        break;
+      case "simInvestDesc":
+        orderBy = { revenue: "desc" };
+        break;
+      case "simInvestAsc":
+        orderBy = { revenue: "asc" };
+        break;
+      default:
+        orderBy = { id: "asc" };
+        break;
+    }
+
+    const companies = await prisma.company.findMany({
+      select: {
+        id: true,
+        companyId: true,
+        name: true,
+        category: true,
+        description: true,
+        actualInvest: true,
+        simInvest: true,
+      },
+      skip: parseInt(offset),
+      take: parseInt(limit),
+      orderBy,
+    });
+    res.send(companies);
+  })
+);
+
 app.post(
   "/investments",
   asyncHandler(async (req, res) => {
