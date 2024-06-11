@@ -32,6 +32,9 @@ function MainTable({ titles, lists }) {
             {list.comparedSelectionCount && (
               <td className={S.tdCell}>{list.comparedSelectionCount}명</td>
             )}
+            {list.simInvest && (
+              <td className={S.tdCell}>{list.simInvest}명</td>
+            )}
           </tr>
         ))}
       </tbody>
