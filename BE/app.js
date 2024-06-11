@@ -85,11 +85,11 @@ app.get(
 );
 
 app.get(
-  "/companies/:id",
+  "/companies/:companyId",
   asyncHandler(async (req, res) => {
-    const companyId = parseInt(req.params.id);
+    const { companyId } = req.params;
     const company = await prisma.company.findUniqueOrThrow({
-      where: { id: companyId },
+      where: { companyId },
     });
     res.send(company);
   })
