@@ -1,0 +1,78 @@
+@value mobile from from "@/styles/breakpoint.css";
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.half_circle {
+  composes: button;
+  width: 194px;
+  height: 48px;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: var(--font-semibold);
+
+  @media all and(mobile) {
+    width: 135px;
+    height: 40px;
+    font-size: 14px;
+  }
+}
+
+.light_half_circle {
+  composes: button;
+  width: 135px;
+  height: 40px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: var(--font-semibold);
+
+  @media all and(mobile) {
+    width: 76px;
+    height: 17px;
+    font-size: 14px;
+  }
+}
+
+.light_circle {
+  composes: button;
+  gap: 2px;
+  width: 104px;
+  height: 48px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: var(--font-medium);
+
+  @media all and(mobile) {
+    width: 73px;
+    height: 32px;
+    font-size: 14px;
+  }
+}
+
+.orange_border {
+  border: 1px solid var(--orange);
+  color: var(--orange);
+}
+
+.orange_background {
+  background-color: var(--orange);
+  color: #fff;
+}
+
+.checked {
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+.gray_border {
+  border: 1px solid var(--gray-200);
+  color: var(--gray-200);
+}
+
+.gray_background {
+  background-color: var(--black-100);
+  color: var(--gray-200);
+}

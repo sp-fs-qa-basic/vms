@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { ReactComponent as ToggleImg } from "@/assets/icons/ic_toggle.svg";
+import { ReactComponent as ToggleImg } from "@/assets/icons/toggle.svg";
 import TableList from "@/components/table/TableList";
 import useShowDropDown from "@/hooks/useShowDropDown";
 import * as S from "./dropdown.module.css";

@@ -1,4 +1,4 @@
-const StartupLists = [
+export const StartupLists = [
   {
     name: "코드잇",
     introduce:
@@ -181,4 +181,40 @@ const StartupLists = [
   },
 ];
 
-export default StartupLists
+import Company1 from '@/assets/icons/company1.svg';
+import Company2 from '@/assets/icons/company2.svg';
+import Company3 from '@/assets/icons/company3.svg';
+import Company4 from '@/assets/icons/company4.svg';
+
+export const Companies = [
+  {
+    name: "코드잇",
+    category: "에듀테크",
+    src: Company1,
+  },
+  {
+    name: "팀스파르타",
+    category: "에듀테크",
+    src: Company2,
+  },
+  {
+    name: "엔코드",
+    category: "전자상거래",
+    src: Company3,
+  },
+  {
+    name: "블루코드",
+    category: "기계장비",
+    src: Company4,
+  },
+  {
+    name: "씨코드",
+    category: "솔루션",
+    src: Company1,
+  },
+  {
+    name: "코드스테이츠",
+    category: "에듀테크",
+    src: Company4,
+  },
+];

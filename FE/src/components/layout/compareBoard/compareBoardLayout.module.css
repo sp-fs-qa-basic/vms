@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+  color: #fff;
+  font-size: 20px;
+  font-weight: var(--font-bold);
+}
+
+.boardContainer {
+  position: relative;
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  width: 1168px;
+  height: 268px;
+  border-radius: 4px;
+  background-color: var(--black-300);
+  color: #fff;
+  font-size: 18px;
+  font-weight: var(--font-medium);
+}

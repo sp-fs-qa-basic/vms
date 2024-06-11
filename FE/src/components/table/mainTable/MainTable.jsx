@@ -1,5 +1,5 @@
 import * as S from './mainTable.module.css';
-import StartupLists from '@/api/mock'
+import {StartupLists} from '@/api/mock'
 
 function MainTable ({titles}) {
   return (
