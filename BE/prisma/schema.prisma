@@ -19,7 +19,8 @@ model Company {
   name                   String
   description            String
   category               Category
-  accInvest              Float
+  actualInvest           Float   @default(0)
+  simInvest              Float   @default(0)
   revenue                Float
   employee               Int
   mySelectionCount       Int      @default(0)

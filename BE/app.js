@@ -44,11 +44,11 @@ app.get(
 
     let orderBy;
     switch (view) {
-      case "accInvestDesc":
-        orderBy = { accInvest: "desc" };
+      case "actualInvestDesc":
+        orderBy = { actualInvest: "desc" };
         break;
-      case "accInvestAsc":
-        orderBy = { accInvest: "asc" };
+      case "actualInvestAsc":
+        orderBy = { actualInvest: "asc" };
         break;
       case "revenueDesc":
         orderBy = { revenue: "desc" };
@@ -120,7 +120,7 @@ app.post(
         name: true,
         description: true,
         category: true,
-        accInvest: true,
+        actualInvest: true,
         revenue: true,
         employee: true,
       },
@@ -134,11 +134,11 @@ app.post(
 
     let sortedCompanies;
     switch (view) {
-      case "accInvestAsc":
-        sortedCompanies = companies.sort((a, b) => a.accInvest - b.accInvest);
+      case "actualInvestAsc":
+        sortedCompanies = companies.sort((a, b) => a.actualInvest - b.actualInvest);
         break;
-      case "accInvestDesc":
-        sortedCompanies = companies.sort((a, b) => b.accInvest - a.accInvest);
+      case "actualInvestDesc":
+        sortedCompanies = companies.sort((a, b) => b.actualInvest - a.actualInvest);
         break;
       case "revenueAsc":
         sortedCompanies = companies.sort((a, b) => a.revenue - b.revenue);
@@ -178,7 +178,7 @@ app.get(
         name: true,
         description: true,
         category: true,
-        accInvest: true,
+        actualInvest: true,
         revenue: true,
         employee: true,
       },
@@ -190,11 +190,11 @@ app.get(
 
     let sortedCompanies;
     switch (view) {
-      case "accInvestAsc":
-        sortedCompanies = companies.sort((a, b) => a.accInvest - b.accInvest);
+      case "actualInvestAsc":
+        sortedCompanies = companies.sort((a, b) => a.actualInvest - b.actualInvest);
         break;
-      case "accInvestDesc":
-        sortedCompanies = companies.sort((a, b) => b.accInvest - a.accInvest);
+      case "actualInvestDesc":
+        sortedCompanies = companies.sort((a, b) => b.actualInvest - a.actualInvest);
         break;
       case "revenueAsc":
         sortedCompanies = companies.sort((a, b) => a.revenue - b.revenue);

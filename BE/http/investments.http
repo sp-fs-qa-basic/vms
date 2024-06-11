@@ -24,7 +24,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/investments/9975497e-fc64-4405-ba55-b766eac6aeeb
+DELETE http://localhost:3000/investments/f4f9f0d8-202b-4ce7-af6f-47e2d31f3f0d
 
 ###
 
