@@ -2,13 +2,16 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import cors from "cors";
 import * as dotenv from "dotenv";
 import express from "express";
+import path from "path";
 dotenv.config();
 
 const prisma = new PrismaClient();
-
 const app = express();
+
 app.use(cors());
 app.use(express.json());
+
+const imagesDirectory = "./src/assets/images";
 
 function asyncHandler(handler) {
   return async function (req, res) {
@@ -92,16 +95,10 @@ app.get(
       orderBy,
     });
 
-    const companies = await Promise.all(
-      data.map(async (company) => {
-        if (company.imageUrl) {
-          const imagePath = path.join(__dirname, "images", company.imageUrl);
-          const image = fs.readFileSync(imagePath, { encoding: "base64" });
-          return { ...company, image };
-        }
-        return company;
-      })
-    );
+    const companies = data.map(company => ({
+      ...company,
+      imageUrl: company.imageUrl ? path.join(imagesDirectory, company.imageUrl) : null
+    }));
 
     const pagination = {
       currentOffset: parseInt(offset),
