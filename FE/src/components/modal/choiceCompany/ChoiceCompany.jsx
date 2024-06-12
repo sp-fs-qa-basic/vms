@@ -5,9 +5,15 @@ import Pagination from "@/components/button/pagination/Pagination";
 import * as S from "./choiceCompany.module.css";
 import { useState } from "react";
 
-function ChoiceCompany({ title, setShow, setMyCompany }) {
+function ChoiceCompany({
+  title,
+  setShow,
+  setCompany,
+  option = "my",
+  count = 0,
+}) {
   const [data, setData] = useState([]);
-  console.log(data);
+
   return (
     <ModalLayout title={title} setShow={setShow}>
       <Search setData={setData} />
@@ -18,11 +24,15 @@ function ChoiceCompany({ title, setShow, setMyCompany }) {
             title="검색 결과"
             lists={data.companies}
             setShow={setShow}
-            setMyCompany={setMyCompany}
+            setCompany={setCompany}
+            option={option}
+            count={count}
           />
-          <div className={S.paginationContainer}>
-            <Pagination />
-          </div>
+          {data.companies.length > 5 && (
+            <div className={S.paginationContainer}>
+              <Pagination />
+            </div>
+          )}
         </>
       )}
     </ModalLayout>

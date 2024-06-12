@@ -5,7 +5,7 @@ import * as B from "@/components/button/button.module.css";
 import { useForm } from "react-hook-form";
 import { postInvestment } from "@/api/investment";
 
-function DoInvestForm({ setShow }) {
+function DoInvestForm({ setShow, id }) {
   const {
     control,
     handleSubmit,
@@ -14,8 +14,11 @@ function DoInvestForm({ setShow }) {
 
   const onSubmit = async () => {
     const {passwordCheck, ...formData} = getValues();
-    const res = await postInvestment("9c8b63c7-d0cb-4c7c-a923-676c33bf495b", formData);
-    //res.data = {companyId, id}
+    const res = await postInvestment(id, formData);
+    
+    if(res.status === 200) {
+      setShow(false);
+    }
   };
 
   return (

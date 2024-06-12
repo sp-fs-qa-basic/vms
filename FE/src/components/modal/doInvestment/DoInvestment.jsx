@@ -5,8 +5,8 @@ import * as S from "./doInvestment.module.css";
 import { Companies } from "@/api/mock";
 
 //TODO : mockData 처리
-function DoInvestment({ title, setShow }) {
-  const { src, name, category } = Companies[1];
+function DoInvestment({ title, setShow, myCompany }) {
+  const { id, src, name, category } = myCompany;
 
   return (
     <ModalLayout title={title} setShow={setShow}>
@@ -14,7 +14,7 @@ function DoInvestment({ title, setShow }) {
         투자 기업 정보
         <CompanyTitle src={src} name={name} category={category} />
       </div>
-      <DoInvestForm setShow={setShow}/>
+      <DoInvestForm setShow={setShow} id={id} />
     </ModalLayout>
   );
 }

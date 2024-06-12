@@ -7,20 +7,19 @@ import { postMySelectCancel } from "@/api/selection";
 
 function MyCompanyBoard({ title, myCompany, setMyCompany }) {
   const [show, setShow] = useState(false);
-  
+
   const handleSelectDelete = async () => {
-    if(myCompany.id) {
+    if (myCompany.id) {
       const res = await postMySelectCancel(myCompany.id);
-      if(res.status === 200) {
+      if (res.status === 200) {
         setMyCompany(null);
       }
     }
-  }
+  };
 
   return (
     <>
       <CompareBoardLayout title={title}>
-        <span className={S.cancel} onClick={handleSelectDelete}>선택 취소</span>
         {!myCompany ? (
           <>
             <AddImg onClick={() => setShow(!show)} className={S.img} />
@@ -28,6 +27,9 @@ function MyCompanyBoard({ title, myCompany, setMyCompany }) {
           </>
         ) : (
           <>
+            <span className={S.cancel} onClick={handleSelectDelete}>
+              선택 취소
+            </span>
             <img src={myCompany.src} />
             <p>{myCompany.name}</p>
           </>
@@ -37,7 +39,7 @@ function MyCompanyBoard({ title, myCompany, setMyCompany }) {
         <ChoiceCompany
           title="나의 기업 선택하기"
           setShow={setShow}
-          setMyCompany={setMyCompany}
+          setCompany={setMyCompany}
         />
       )}
     </>

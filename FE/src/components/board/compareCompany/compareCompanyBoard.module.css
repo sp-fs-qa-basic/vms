@@ -11,3 +11,11 @@
   font-weight: var(--font-regular);
   background-color: unset;
 }
+
+.selectContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  background-color: unset;
+}
