@@ -78,7 +78,7 @@ app.get(
         : {},
     });
 
-    const companies = await prisma.company.findMany({
+    const data = await prisma.company.findMany({
       where: search
         ? {
             OR: [
@@ -91,6 +91,17 @@ app.get(
       take: parseInt(limit),
       orderBy,
     });
+
+    const companies = await Promise.all(
+      data.map(async (company) => {
+        if (company.image) {
+          const imagePath = path.join(__dirname, "images", company.image);
+          const image = fs.readFileSync(imagePath, { encoding: "base64" });
+          return { ...company, image };
+        }
+        return company;
+      })
+    );
 
     const pagination = {
       currentOffset: parseInt(offset),
@@ -110,7 +121,21 @@ app.get(
     const company = await prisma.company.findUniqueOrThrow({
       where: { companyId },
     });
-    res.send(company);
+
+    if (!company) {
+      return res.status(404).json({ error: "Company not found" });
+    }
+
+    // 이미지 경로가 있는 경우에만 이미지 경로를 포함하여 응답
+    if (company.image) {
+      // 이미지 경로 설정
+      const imagePath = `/images/${company.image}`;
+      // 기존 company 객체에 image 경로를 추가하여 새로운 객체를 생성
+      const companies = { ...company, imagePath };
+      res.send(companies);
+    } else {
+      res.send(company);
+    }
   })
 );
 

@@ -25,6 +25,7 @@ model Company {
   employee               Int
   mySelectionCount       Int      @default(0)
   comparedSelectionCount Int      @default(0)
+  imageUrl               String?
 
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
