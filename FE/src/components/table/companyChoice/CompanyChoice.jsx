@@ -3,12 +3,18 @@ import CompanyTitle from "@/components/table/companyChoice/CompanyTitle";
 import Button from "@/components/button/Button";
 import * as S from "./choiceTable.module.css";
 import * as B from "@/components/button/button.module.css";
+import { postMySelect } from "@/api/selection";
 
-function CompanyChoice({ src, name, category, recent }) {
+function CompanyChoice({ id, src, name, category, recent, setShow, setMyCompany }) {
   const [isChecked, setIsChecked] = useState(false);
 
-  const handleClick = () => {
-    setIsChecked((prev) => !prev);
+  const handleClick = async () => {
+    const res = await postMySelect(id);
+    if(res.status === 200) {
+      setMyCompany({id, src, name})
+      setShow(false)
+      setIsChecked((prev) => !prev);
+    }
   };
 
   const buttonValue = isChecked

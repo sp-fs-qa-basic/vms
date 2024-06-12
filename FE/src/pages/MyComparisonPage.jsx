@@ -9,20 +9,20 @@ import DoneCompare from "@/components/board/doneCompare/DoneCompare";
 import DoInvestment from "@/components/modal/doInvestment/DoInvestment";
 
 function MyComparisonPage() {
-  const [showMyCompany, setShowMyCompany] = useState(false);
   const [showCompare, setShowCompare] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const [showDoInvestment, setShowDoInvestment] = useState(false);
+  const [myCompany, setMyCompany] = useState(null);
 
   return (
     <>
       <div className={S.container}>
         <MyCompanyBoard
           title="나의 기업을 선택해 주세요"
-          show={showMyCompany}
-          setShow={setShowMyCompany}
+          myCompany={myCompany}
+          setMyCompany={setMyCompany}
         />
-        {!showTable ? (
+        {myCompany && (
           <>
             <CompareCompanyBoard
               title="어떤 기업이 궁금하세요?"
@@ -34,26 +34,24 @@ function MyComparisonPage() {
               className={`${B.half_circle} ${B.gray_background}`}
               onClick={() => setShowTable(true)}
             />
-          </>
-        ) : (
-          <>
-            {/* <DoneCompare /> */}
-            <Button
-              name="나의 기업에 투자하기"
-              className={`${B.half_circle} ${B.gray_background}`}
-              onClick={() => setShowDoInvestment(true)}
-            />
+            {showTable && (
+              <>
+                {/* <DoneCompare /> */}
+                <Button
+                  name="나의 기업에 투자하기"
+                  className={`${B.half_circle} ${B.gray_background}`}
+                  onClick={() => setShowDoInvestment(true)}
+                />
+              </>
+            )}
           </>
         )}
       </div>
-      {showMyCompany && (
-        <ChoiceCompany title="나의 기업 선택하기" setShow={setShowMyCompany} />
-      )}
       {showCompare && (
         <ChoiceCompany title="나의 기업 선택하기" setShow={setShowCompare} />
       )}
       {showDoInvestment && (
-        <DoInvestment title="기업에 투자하기" setShow={setShowDoInvestment}  />
+        <DoInvestment title="기업에 투자하기" setShow={setShowDoInvestment} />
       )}
     </>
   );
