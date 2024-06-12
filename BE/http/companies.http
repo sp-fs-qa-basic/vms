@@ -1,3 +1,7 @@
+GET http://localhost:3000/companies
+
+###
+
 GET http://localhost:3000/companies?search=코드잇&offset=0&limit=10&view=employeeDesc
 
 ###

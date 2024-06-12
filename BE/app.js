@@ -67,7 +67,18 @@ app.get(
         break;
     }
 
-    const companies = await prisma.company.findMany({
+    const totalCount = await prisma.company.count({
+      where: search
+        ? {
+            OR: [
+              { name: { contains: search, mode: "insensitive" } },
+              { description: { contains: search, mode: "insensitive" } },
+            ],
+          }
+        : {},
+    });
+
+    const data = await prisma.company.findMany({
       where: search
         ? {
             OR: [
@@ -80,7 +91,26 @@ app.get(
       take: parseInt(limit),
       orderBy,
     });
-    res.send(companies);
+
+    const companies = await Promise.all(
+      data.map(async (company) => {
+        if (company.image) {
+          const imagePath = path.join(__dirname, "images", company.image);
+          const image = fs.readFileSync(imagePath, { encoding: "base64" });
+          return { ...company, image };
+        }
+        return company;
+      })
+    );
+
+    const pagination = {
+      currentOffset: parseInt(offset),
+      nextOffset: Math.min(parseInt(offset) + parseInt(limit), totalCount),
+      limit: parseInt(limit),
+      totalCount,
+    };
+
+    res.send({ companies, pagination });
   })
 );
 
@@ -91,7 +121,21 @@ app.get(
     const company = await prisma.company.findUniqueOrThrow({
       where: { companyId },
     });
-    res.send(company);
+
+    if (!company) {
+      return res.status(404).json({ error: "Company not found" });
+    }
+
+    // 이미지 경로가 있는 경우에만 이미지 경로를 포함하여 응답
+    if (company.image) {
+      // 이미지 경로 설정
+      const imagePath = `/images/${company.image}`;
+      // 기존 company 객체에 image 경로를 추가하여 새로운 객체를 생성
+      const companies = { ...company, imagePath };
+      res.send(companies);
+    } else {
+      res.send(company);
+    }
   })
 );
 
@@ -272,6 +316,8 @@ app.get(
         break;
     }
 
+    const totalCount = await prisma.company.count();
+
     const companies = await prisma.company.findMany({
       select: {
         id: true,
@@ -286,54 +332,112 @@ app.get(
       take: parseInt(limit),
       orderBy,
     });
-    res.send(companies);
+
+    const currentOffset = parseInt(offset);
+    const nextOffset = Math.min(currentOffset + parseInt(limit), totalCount);
+
+    res.send({
+      companies: companies,
+      pagination: {
+        currentOffset: currentOffset,
+        nextOffset: nextOffset,
+        limit: parseInt(limit),
+        totalCount: totalCount,
+      },
+    });
   })
 );
 
+async function updateSelectionCount(companyId, increment, countField) {
+  const company = await prisma.company.findUnique({
+    where: { companyId },
+  });
+
+  if (!company) {
+    throw new Error("Company not found");
+  }
+
+  let newCount = company[countField] + increment;
+  if (newCount < 0) {
+    newCount = 0;
+  }
+
+  await prisma.company.update({
+    where: { companyId },
+    data: { [countField]: newCount },
+  });
+
+  return newCount;
+}
+
 app.post(
-  "/selections/:companyId/my-company",
+  "/selections/:companyId/my-company/select",
   asyncHandler(async (req, res) => {
     const { companyId } = req.params;
 
-    const company = await prisma.company.findUnique({
-      where: { companyId },
-    });
-
-    if (!company) {
-      return res.status(404).json({ error: "Company not found" });
-    }
-
-    await prisma.company.update({
-      where: { companyId },
-      data: { mySelectionCount: company.mySelectionCount + 1 },
-    });
+    const newCount = await updateSelectionCount(
+      companyId,
+      1,
+      "mySelectionCount"
+    );
 
     res.json({
       message: "My company selection count updated",
+      totalCount: newCount,
     });
   })
 );
 
 app.post(
-  "/selections/:companyId/compared-company",
+  "/selections/:companyId/my-company/cancel",
   asyncHandler(async (req, res) => {
     const { companyId } = req.params;
 
-    const company = await prisma.company.findUnique({
-      where: { companyId },
-    });
-
-    if (!company) {
-      return res.status(404).json({ error: "Company not found" });
-    }
-
-    await prisma.company.update({
-      where: { companyId },
-      data: { comparedSelectionCount: company.comparedSelectionCount + 1 },
-    });
+    const newCount = await updateSelectionCount(
+      companyId,
+      -1,
+      "mySelectionCount"
+    );
 
     res.json({
-      message: "Compared company selection count updated",
+      message: "My company selection count decreased",
+      totalCount: newCount,
+    });
+  })
+);
+
+app.post(
+  "/selections/:companyId/compared-company/select",
+  asyncHandler(async (req, res) => {
+    const { companyId } = req.params;
+
+    const newCount = await updateSelectionCount(
+      companyId,
+      1,
+      "comparedSelectionCount"
+    );
+
+    res.json({
+      message: "Compared company selection count increased",
+      totalCount: newCount,
+    });
+  })
+);
+
+app.post(
+  "/selections/:companyId/compared-company/cancel",
+  asyncHandler(async (req, res) => {
+    const { companyId } = req.params;
+
+    const newCount = await updateSelectionCount(
+      companyId,
+      -1,
+      "comparedSelectionCount"
+    );
+
+    res.json({
+      message: "Compared company selection count decreased",
+      totalCount: newCount,
     });
   })
 );
@@ -362,6 +466,8 @@ app.get(
         break;
     }
 
+    const totalCount = await prisma.company.count();
+
     const companies = await prisma.company.findMany({
       select: {
         id: true,
@@ -376,7 +482,19 @@ app.get(
       take: parseInt(limit),
       orderBy,
     });
-    res.send(companies);
+
+    const currentOffset = parseInt(offset);
+    const nextOffset = Math.min(currentOffset + parseInt(limit), totalCount);
+
+    res.send({
+      companies: companies,
+      pagination: {
+        currentOffset: currentOffset,
+        nextOffset: nextOffset,
+        limit: parseInt(limit),
+        totalCount: totalCount,
+      },
+    });
   })
 );
 
@@ -396,23 +514,6 @@ app.post(
         .json({ error: "No company exists for the provided companyId." });
     }
 
-    const existingInvestment = await prisma.investor.findFirst({
-      where: {
-        companyId,
-      },
-    });
-
-    // 해당 companyId를 가진 투자 정보가 있는지 확인
-    const updatedCompany = await prisma.company.update({
-      where: { companyId },
-      data: {
-        simInvest: {
-          increment: amount, // simInvest 필드 증가
-        },
-      },
-    });
-
-    // 새로운 투자 정보 생성
     const newInvestment = await prisma.investor.create({
       data: {
         name,
@@ -423,7 +524,16 @@ app.post(
       },
     });
 
-    res.send(newInvestment);
+    await prisma.company.update({
+      where: { companyId },
+      data: {
+        simInvest: {
+          increment: amount, // simInvest 필드 증가
+        },
+      },
+    });
+
+    res.send({ id: newInvestment.id, companyId: newInvestment.companyId });
   })
 );
 
@@ -458,6 +568,17 @@ app.patch(
     const { id } = req.params;
     const { name, amount, comment, password } = req.body;
 
+    const existingInvestment = await prisma.investor.findUnique({
+      where: { id },
+    });
+
+    if (!existingInvestment) {
+      return res.status(404).json({ error: "Investment not found." });
+    }
+
+    // 기존 투자 금액을 계산하여 업데이트할 simInvest 값을 조정합니다.
+    const amountDifference = amount - existingInvestment.amount;
+
     const updatedInvestor = await prisma.investor.update({
       where: { id },
       data: {
@@ -467,6 +588,17 @@ app.patch(
         password,
       },
     });
+
+    // simInvest 업데이트
+    await prisma.company.update({
+      where: { companyId: existingInvestment.companyId },
+      data: {
+        simInvest: {
+          increment: amountDifference, // 기존 투자 금액을 반영하여 simInvest 필드 증가/감소
+        },
+      },
+    });
+
     res.json(updatedInvestor);
   })
 );
