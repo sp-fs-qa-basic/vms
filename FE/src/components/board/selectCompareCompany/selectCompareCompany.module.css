@@ -29,16 +29,19 @@
   justify-content: center;
   align-items: center;
   gap: 4px;
+  background-color: unset;
 }
 
 .h2 {
   color: #fff;
   font-size: 16px;
   font-weight: var(--font-medium);
+  background-color: unset;
 }
 
 .span {
   color: var(--gray-200);
   font-size: 14px;
   font-weight: var(--font-medium);
+  background-color: unset;
 }

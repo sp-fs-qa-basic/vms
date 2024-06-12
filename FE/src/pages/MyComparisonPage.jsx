@@ -61,7 +61,7 @@ function MyComparisonPage() {
         )}
       </div>
       {showDoInvestment && (
-        <DoInvestment title="기업에 투자하기" setShow={setShowDoInvestment} />
+        <DoInvestment title="기업에 투자하기" setShow={setShowDoInvestment} company={myCompany} />
       )}
     </>
   );
