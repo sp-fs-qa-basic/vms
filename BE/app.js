@@ -94,8 +94,8 @@ app.get(
 
     const companies = await Promise.all(
       data.map(async (company) => {
-        if (company.image) {
-          const imagePath = path.join(__dirname, "images", company.image);
+        if (company.imageUrl) {
+          const imagePath = path.join(__dirname, "images", company.imageUrl);
           const image = fs.readFileSync(imagePath, { encoding: "base64" });
           return { ...company, image };
         }
