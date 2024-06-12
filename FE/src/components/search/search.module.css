@@ -23,17 +23,15 @@
 
 .inputContainer {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   gap: 8px;
-  width: auto;
-  height: auto;
+  width: 100%;
 }
 
 .input {
   all: unset;
-  width: auto;
-  height: auto;
+  flex: 1;
   color: var(--gray-100);
   font-size: 14px;
   font-weight: var(--font-regular);

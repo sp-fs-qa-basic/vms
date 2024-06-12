@@ -5,6 +5,7 @@ import Pagination from "@/components/button/pagination/Pagination";
 import * as S from './choiceCompany.module.css';
 
 function ChoiceCompany ({setShow, title}) {
+  
   return (
     <ModalLayout title={title} setShow={setShow}>
       <Search />
