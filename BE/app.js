@@ -67,6 +67,17 @@ app.get(
         break;
     }
 
+    const totalCount = await prisma.company.count({
+      where: search
+        ? {
+            OR: [
+              { name: { contains: search, mode: "insensitive" } },
+              { description: { contains: search, mode: "insensitive" } },
+            ],
+          }
+        : {},
+    });
+
     const companies = await prisma.company.findMany({
       where: search
         ? {
@@ -80,7 +91,15 @@ app.get(
       take: parseInt(limit),
       orderBy,
     });
-    res.send(companies);
+
+    const pagination = {
+      currentOffset: parseInt(offset),
+      nextOffset: Math.min(parseInt(offset) + parseInt(limit), totalCount),
+      limit: parseInt(limit),
+      totalCount,
+    };
+
+    res.send({ companies, pagination });
   })
 );
 
