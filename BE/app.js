@@ -291,6 +291,8 @@ app.get(
         break;
     }
 
+    const totalCount = await prisma.company.count();
+
     const companies = await prisma.company.findMany({
       select: {
         id: true,
@@ -305,7 +307,19 @@ app.get(
       take: parseInt(limit),
       orderBy,
     });
-    res.send(companies);
+
+    const currentOffset = parseInt(offset);
+    const nextOffset = Math.min(currentOffset + parseInt(limit), totalCount);
+
+    res.send({
+      companies: companies,
+      pagination: {
+        currentOffset: currentOffset,
+        nextOffset: nextOffset,
+        limit: parseInt(limit),
+        totalCount: totalCount,
+      },
+    });
   })
 );
 
