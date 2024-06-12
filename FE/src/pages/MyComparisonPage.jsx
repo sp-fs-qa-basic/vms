@@ -37,7 +37,7 @@ function MyComparisonPage() {
           </>
         ) : (
           <>
-            <DoneCompare />
+            {/* <DoneCompare /> */}
             <Button
               name="나의 기업에 투자하기"
               className={`${B.half_circle} ${B.gray_background}`}
