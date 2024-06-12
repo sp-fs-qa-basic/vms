@@ -290,50 +290,96 @@ app.get(
   })
 );
 
+async function updateSelectionCount(companyId, increment, countField) {
+  const company = await prisma.company.findUnique({
+    where: { companyId },
+  });
+
+  if (!company) {
+    throw new Error("Company not found");
+  }
+
+  let newCount = company[countField] + increment;
+  if (newCount < 0) {
+    newCount = 0;
+  }
+
+  await prisma.company.update({
+    where: { companyId },
+    data: { [countField]: newCount },
+  });
+
+  return newCount;
+}
+
 app.post(
-  "/selections/:companyId/my-company",
+  "/selections/:companyId/my-company/select",
   asyncHandler(async (req, res) => {
     const { companyId } = req.params;
 
-    const company = await prisma.company.findUnique({
-      where: { companyId },
-    });
-
-    if (!company) {
-      return res.status(404).json({ error: "Company not found" });
-    }
-
-    await prisma.company.update({
-      where: { companyId },
-      data: { mySelectionCount: company.mySelectionCount + 1 },
-    });
+    const newCount = await updateSelectionCount(
+      companyId,
+      1,
+      "mySelectionCount"
+    );
 
     res.json({
       message: "My company selection count updated",
+      totalCount: newCount,
     });
   })
 );
 
 app.post(
-  "/selections/:companyId/compared-company",
+  "/selections/:companyId/my-company/cancel",
   asyncHandler(async (req, res) => {
     const { companyId } = req.params;
 
-    const company = await prisma.company.findUnique({
-      where: { companyId },
-    });
-
-    if (!company) {
-      return res.status(404).json({ error: "Company not found" });
-    }
-
-    await prisma.company.update({
-      where: { companyId },
-      data: { comparedSelectionCount: company.comparedSelectionCount + 1 },
-    });
+    const newCount = await updateSelectionCount(
+      companyId,
+      -1,
+      "mySelectionCount"
+    );
 
     res.json({
-      message: "Compared company selection count updated",
+      message: "My company selection count decreased",
+      totalCount: newCount,
+    });
+  })
+);
+
+app.post(
+  "/selections/:companyId/compared-company/select",
+  asyncHandler(async (req, res) => {
+    const { companyId } = req.params;
+
+    const newCount = await updateSelectionCount(
+      companyId,
+      1,
+      "comparedSelectionCount"
+    );
+
+    res.json({
+      message: "Compared company selection count increased",
+      totalCount: newCount,
+    });
+  })
+);
+
+app.post(
+  "/selections/:companyId/compared-company/cancel",
+  asyncHandler(async (req, res) => {
+    const { companyId } = req.params;
+
+    const newCount = await updateSelectionCount(
+      companyId,
+      -1,
+      "comparedSelectionCount"
+    );
+
+    res.json({
+      message: "Compared company selection count decreased",
+      totalCount: newCount,
     });
   })
 );
