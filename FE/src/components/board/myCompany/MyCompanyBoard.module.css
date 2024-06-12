@@ -3,6 +3,7 @@
   top: 16px;
   right: 16px;
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .img {

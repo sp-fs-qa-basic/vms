@@ -14,8 +14,18 @@ function CompaniesPage() {
     const fetchCompanies = async () => {
       const {view} = sortList.find((list) => list['label'] === dropdownValue);
       const res = await getCompanies(null, null, null, null, view); 
-      console.log(res)
-      setCompanies(res.data.companies);
+
+      const extract = res.data.companies.map((company) => ({
+        id: company.id,
+        name: company.name,
+        imageUrl: company.imageUrl,
+        description: company.description,
+        category: company.category,
+        actualInvest : company.actualInvest,
+        revenue: company.revenue,
+        employee: company.employee,
+      }))
+      setCompanies(extract);
     };
     fetchCompanies();
   }, [dropdownValue]); 

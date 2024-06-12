@@ -5,13 +5,13 @@ import { ReactComponent as SearchImg } from "@/assets/icons/search.svg";
 import { ReactComponent as DeleteImg } from "@/assets/icons/delete_circle.svg";
 import * as S from "./search.module.css";
 
-function Search() {
+function Search({setData}) {
   const [value, setValue] = useState("");
-  const searchValue = useDebounce(value, 500);
+  const searchValue = useDebounce(value, 200);
 
   const handleSearch = async () => {
     const res = await getCompanies(null, searchValue, null, 5, null);
-    console.log(res);
+    setData(res.data);
   };
 
   const PressEnter = (e) => {

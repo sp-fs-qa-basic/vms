@@ -1,19 +1,21 @@
 import CompanyChoice from "@/components/table/companyChoice/CompanyChoice";
 import * as S from "./choiceTable.module.css";
-import { Companies } from "@/api/mock";
 
-function ChoiceTable({ title }) {
+function ChoiceTable({ title, lists, setShow, setMyCompany }) {
   return (
     <div className={S.container}>
       {title}
       <div className={S.tableContainer}>
-        {Companies.map((company, index) => (
+        {lists.map((company, index) => (
           <CompanyChoice
             key={index}
-            src={company.src}
+            id={company.companyId}
+            src={company.imageUrl}
             name={company.name}
             category={company.category}
             recent={title.includes('최근') ? true : false}
+            setShow={setShow}
+            setMyCompany={setMyCompany}
           />
         ))}
       </div>
