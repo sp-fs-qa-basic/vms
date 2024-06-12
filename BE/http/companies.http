@@ -10,18 +10,18 @@ GET http://localhost:3000/companies/bb3c32fd-286c-4225-aa7c-78b42f320184
 
 ###
 
-POST http://localhost:3000/companies/d1f9c0a8-251e-469d-9b8c-1e6e84f1de21/comparison?view=revenueDesc
+POST http://localhost:3000/companies/bb3c32fd-286c-4225-aa7c-78b42f320184/comparison?view=revenueDesc
 Content-Type: application/json
 
 {
   "bodyCompanyIds" : [
-    "b89d6dc9-3f0b-4c18-918e-b37c0f276fe3",
-    "e7a8de0c-1583-4f84-8e80-93a6b2765bcb",
-    "6ed357d8-79f2-46eb-921b-7744c6e53a99"
+    "c1bc22e7-6e01-4b4d-85f6-63804920f157",
+    "bc93bbb0-9443-497f-a2d6-2dbe52448485",
+    "c4c38c7d-c6c5-47e0-a364-0f30fa0e585a"
   ]
 }
 
 ###
 
-GET http://localhost:3000/companies/3f89b7b2-d0e8-4d9e-bc4e-4c88709c1e76/rank?view=revenueAsc
+GET http://localhost:3000/companies/bb3c32fd-286c-4225-aa7c-78b42f320184/rank?view=revenueAsc
 

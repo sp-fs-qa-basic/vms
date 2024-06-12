@@ -95,9 +95,11 @@ app.get(
       orderBy,
     });
 
-    const companies = data.map(company => ({
+    const companies = data.map((company) => ({
       ...company,
-      imageUrl: company.imageUrl ? path.join(imagesDirectory, company.imageUrl) : null
+      imageUrl: company.imageUrl
+        ? path.join(imagesDirectory, company.imageUrl)
+        : null,
     }));
 
     const pagination = {
@@ -123,15 +125,12 @@ app.get(
       return res.status(404).json({ error: "Company not found" });
     }
 
-    // 이미지 경로가 있는 경우에만 이미지 경로를 포함하여 응답
-    if (company.image) {
-      // 이미지 경로 설정
-      const imagePath = `/images/${company.image}`;
-      // 기존 company 객체에 image 경로를 추가하여 새로운 객체를 생성
-      const companies = { ...company, imagePath };
-      res.send(companies);
+    if (company.imageUrl) {
+      const imageUrl = path.join(imagesDirectory, company.imageUrl);
+      const companyWithImageUrl = { ...company, imageUrl };
+      res.json(companyWithImageUrl);
     } else {
-      res.send(company);
+      res.json(company);
     }
   })
 );
@@ -164,6 +163,7 @@ app.post(
         actualInvest: true,
         revenue: true,
         employee: true,
+        imageUrl: true,
       },
     });
 
@@ -201,7 +201,14 @@ app.post(
         sortedCompanies = companies; // 정렬 조건이 없을 경우 기본 정렬 (기존 순서)
     }
 
-    res.json({ companies: sortedCompanies });
+    const companiesWithImageUrl = sortedCompanies.map((company) => ({
+      ...company,
+      imageUrl: company.imageUrl
+        ? path.join(imagesDirectory, company.imageUrl)
+        : null,
+    }));
+
+    res.json({ companies: companiesWithImageUrl });
   })
 );
 
@@ -226,6 +233,7 @@ app.get(
         actualInvest: true,
         revenue: true,
         employee: true,
+        imageUrl: true,
       },
     });
 
@@ -282,9 +290,16 @@ app.get(
       resultCompanies = sortedCompanies.slice(startIndex, endIndex);
     }
 
+    const companiesWithImageUrl = resultCompanies.map((company) => ({
+      ...company,
+      imageUrl: company.imageUrl
+        ? path.join(imagesDirectory, company.imageUrl)
+        : null,
+    }));
+
     res.json({
       rank: targetIndex + 1, // 순위는 0부터 시작하므로 +1
-      companies: resultCompanies,
+      companies: companiesWithImageUrl,
     });
   })
 );
@@ -324,6 +339,7 @@ app.get(
         description: true,
         mySelectionCount: true,
         comparedSelectionCount: true,
+        imageUrl: true,
       },
       skip: parseInt(offset),
       take: parseInt(limit),
@@ -333,8 +349,16 @@ app.get(
     const currentOffset = parseInt(offset);
     const nextOffset = Math.min(currentOffset + parseInt(limit), totalCount);
 
+    // 이미지 경로를 포함한 객체로 변환
+    const companiesWithImageUrl = companies.map((company) => ({
+      ...company,
+      imageUrl: company.imageUrl
+        ? path.join(imagesDirectory, company.imageUrl)
+        : null,
+    }));
+
     res.send({
-      companies: companies,
+      companies: companiesWithImageUrl,
       pagination: {
         currentOffset: currentOffset,
         nextOffset: nextOffset,
@@ -474,6 +498,7 @@ app.get(
         description: true,
         actualInvest: true,
         simInvest: true,
+        imageUrl: true,
       },
       skip: parseInt(offset),
       take: parseInt(limit),
@@ -483,8 +508,15 @@ app.get(
     const currentOffset = parseInt(offset);
     const nextOffset = Math.min(currentOffset + parseInt(limit), totalCount);
 
+    const companiesWithImageUrl = companies.map((company) => ({
+      ...company,
+      imageUrl: company.imageUrl
+        ? path.join(imagesDirectory, company.imageUrl)
+        : null,
+    }));
+
     res.send({
-      companies: companies,
+      companies: companiesWithImageUrl,
       pagination: {
         currentOffset: currentOffset,
         nextOffset: nextOffset,
@@ -634,7 +666,6 @@ app.delete(
     });
 
     res.json({ message: "성공적으로 삭제되었습니다." });
-
   })
 );
 
