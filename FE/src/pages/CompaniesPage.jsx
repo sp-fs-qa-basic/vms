@@ -13,8 +13,9 @@ function CompaniesPage() {
   useEffect(() => {
     const fetchCompanies = async () => {
       const {view} = sortList.find((list) => list['label'] === dropdownValue);
-      const company = await getCompanies(null, null, null, null, view); 
-      setCompanies(company.data);
+      const res = await getCompanies(null, null, null, null, view); 
+      console.log(res)
+      setCompanies(res.data.companies);
     };
     fetchCompanies();
   }, [dropdownValue]); 

@@ -1,11 +1,25 @@
 import DefaultInput from "@/components/input/DefaultInput";
+import Button from "@/components/button/Button";
 import * as S from "./doInvestForm.module.css";
+import * as B from "@/components/button/button.module.css";
+import { useForm } from "react-hook-form";
+import { postInvestment } from "@/api/investment";
 
-function DoInvestForm({ method }) {
-  const { control, handleSubmit } = method;
+function DoInvestForm({ setShow }) {
+  const {
+    control,
+    handleSubmit,
+    getValues,
+  } = useForm();
+
+  const onSubmit = async () => {
+    const {passwordCheck, ...formData} = getValues();
+    const res = await postInvestment("9c8b63c7-d0cb-4c7c-a923-676c33bf495b", formData);
+    //res.data = {companyId, id}
+  };
 
   return (
-    <form onSubmit={handleSubmit} className={S.formContainer} >
+    <form onSubmit={handleSubmit(onSubmit)} className={S.formContainer}>
       <DefaultInput
         placeholder="투자자 이름을 입력해 주세요"
         name="name"
@@ -14,7 +28,7 @@ function DoInvestForm({ method }) {
       />
       <DefaultInput
         placeholder="투자 금액을 입력해 주세요"
-        name="investment"
+        name="amount"
         label="투자 금액"
         control={control}
       />
@@ -38,7 +52,22 @@ function DoInvestForm({ method }) {
         name="passwordCheck"
         label="비밀번호 확인"
         control={control}
+        rules={{
+          validate: (value) => value === getValues("password") || "비밀번호가 일치하지 않습니다."
+        }}
       />
+      <div className={S.buttonBox}>
+        <Button
+          name="취소"
+          className={`${B.half_circle} ${B.orange_border}`}
+          onClick={() => setShow(false)}
+        />
+        <Button
+          type="submit"
+          name="투자하기"
+          className={`${B.half_circle} ${B.orange_background}`}
+        />
+      </div>
     </form>
   );
 }

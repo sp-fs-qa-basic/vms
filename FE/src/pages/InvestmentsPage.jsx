@@ -14,8 +14,9 @@ function InvestmentsPage() {
       const { view } = investSortList.find(
         (list) => list["label"] === dropdownValue
       );
-      const company = await getInvestment(null, view);
-      setCompanies(company.data);
+      const res = await getInvestment(null, view);
+      console.log(res)
+      setCompanies(res.data.companies);
     };
     fetchCompanies();
   }, [dropdownValue]);

@@ -5,3 +5,11 @@
   align-items: center;
   gap: 24px;
 }
+
+.buttonBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 16px;
+}

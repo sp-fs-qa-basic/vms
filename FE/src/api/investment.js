@@ -15,17 +15,15 @@ export const getInvestment = async (id, view) => {
 };
 
 //기업 투자하기
-export const postInvestment = async (id, name, amount, comment, password) => {
+export const postInvestment = async (id, data) => {
   const option = {
     endpoint: `/investments`,
     method: "POST",
-    data: {
-      name,
-      companyId: id,
-      amount,
-      comment,
-      password,
-    },
+    data : {
+      ...data,
+      amount: parseInt(data.amount),
+      companyId: id
+    }
   };
 
   const result = await sendApiRequest(option);

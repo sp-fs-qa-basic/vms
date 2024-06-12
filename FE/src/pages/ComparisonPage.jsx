@@ -12,9 +12,8 @@ function ComparisonPage() {
   useEffect(() => {
     const fetchCompanies = async () => {
       const { view } = compareSortList.find((list) => list["label"] === dropdownValue);
-      const company = await getSelect(view, null, null);
-      console.log(company)
-      setCompanies(company.data);
+      const res = await getSelect(view, null, null);
+      setCompanies(res.data.companies);
     };
     fetchCompanies();
   }, [dropdownValue]);
