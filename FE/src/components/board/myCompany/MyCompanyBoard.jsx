@@ -37,7 +37,7 @@ function MyCompanyBoard({ title, myCompany, setMyCompany }) {
         <ChoiceCompany
           title="나의 기업 선택하기"
           setShow={setShow}
-          setMyCompany={setMyCompany}
+          setCompany={setMyCompany}
         />
       )}
     </>
