@@ -75,7 +75,6 @@ app.get(
         ? {
             OR: [
               { name: { contains: search, mode: "insensitive" } },
-              { description: { contains: search, mode: "insensitive" } },
             ],
           }
         : {},
