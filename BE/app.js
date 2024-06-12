@@ -605,10 +605,36 @@ app.delete(
   asyncHandler(async (req, res) => {
     const { id } = req.params;
 
+    // 삭제되는 투자 정보 조회
+    const deletedInvestment = await prisma.investor.findUnique({
+      where: { id },
+      include: { company: true }, // 투자 정보에 회사 정보를 함께 조회
+    });
+
+    if (!deletedInvestment) {
+      return res.status(404).json({ error: "Investment not found." });
+    }
+
+    // 삭제되는 투자 금액
+    const deletedAmount = deletedInvestment.amount;
+
+    // 투자 정보 삭제
     await prisma.investor.delete({
       where: { id },
     });
+
+    // simInvest 값 감소
+    await prisma.company.update({
+      where: { companyId: deletedInvestment.companyId },
+      data: {
+        simInvest: {
+          decrement: deletedAmount, // 삭제된 투자 금액만큼 simInvest 감소
+        },
+      },
+    });
+
     res.json({ message: "성공적으로 삭제되었습니다." });
+
   })
 );
 
