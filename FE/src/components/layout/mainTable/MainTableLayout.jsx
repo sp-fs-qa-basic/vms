@@ -12,6 +12,9 @@ function MainTableLayout({
   value,
   setValue,
   handleSearch,
+  data,
+  pagination,
+  onPageChange
 }) {
   return (
     <div className={S.container}>
@@ -26,7 +29,13 @@ function MainTableLayout({
         handleSearch={handleSearch}
       />
       {children}
-      <Pagination />
+      <div className={S.paginationContainer}>
+        <Pagination
+          data={data}
+          pagination={pagination}
+          onPageChange={onPageChange} 
+        />
+      </div>
     </div>
   );
 }

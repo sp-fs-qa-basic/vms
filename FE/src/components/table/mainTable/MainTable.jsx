@@ -23,7 +23,9 @@ function MainTable({ titles, lists }) {
               <img src={list.imageUrl} />
               {list.name}
             </td>
-            <td className={`${S.tdCell} ${S.introduce}`}>{list.description}</td>
+            <td className={`${S.tdCell} ${S.introduce}`}>
+                {list.description}
+            </td>
             <td className={S.tdCell}>{list.category}</td>
             {list.actualInvest && (
               <td className={S.tdCell}>{list.actualInvest}억 원</td>

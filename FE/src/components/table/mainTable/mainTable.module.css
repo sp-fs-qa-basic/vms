@@ -5,10 +5,6 @@
   border-collapse: collapse;
   table-layout: fixed;
 
-  @media all and (mobile) {
-    width: 696px;
-    overflow: hidden;
-  }
 }
 
 .thCell {
@@ -16,17 +12,25 @@
   background-color: var(--black-100);
   font-size: 14px;
   font-weight: var(--font-medium);
+  padding: 10px;
 
   @media all and (mobile) {
     font-size: 13px;
   }
 }
 
-.th,
+.thCell:first-child {
+  border-radius: 4px 0px 0px 4px;
+}
+
+.thCell:last-child {
+  border-radius: 0px 4px 4px 0px;
+}
+
+.tdCell .th,
 .td {
   padding: 8px;
   text-align: center;
-  border-radius: 10px;
 }
 
 .theadGap {
@@ -45,16 +49,14 @@
 .thCell,
 .tdCell {
   color: var(--gray-100);
-  padding: 8px;
 }
 
 .tdCell {
   background-color: var(--black-200);
   font-size: 14px;
   font-weight: var(--font-regular);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  height: 64px;
+  
 
   @media all and (mobile) {
     font-size: 13px;
@@ -62,8 +64,28 @@
 }
 
 .introduce {
-  white-space: nowrap;
+  padding: 15px;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 25%;
+  white-space: nowrap;
+  /* display: -webkit-box; 
+  -webkit-line-clamp: 2; 
+  -webkit-box-orient: vertical; 
+  word-break: break-word; */
+}
+
+.thCell:first-child {
+  width: 68px; 
+}
+
+.thCell:nth-child(2) {
+  width: 213px;
+}
+
+.thCell:nth-child(3) {
+  width: 304px; 
+}
+
+.thCell:nth-child(4) {
+  width: 153.75px;
 }

@@ -8,13 +8,21 @@ import useDebounce from "@/hooks/useDebounce";
 
 function CompaniesPage() {
   const [companies, setCompanies] = useState([]);
+  const [pagination, setPagination] = useState({});
   const [value, setValue] = useState("");
   const searchValue = useDebounce(value, 200);
   const [dropdownValue, setDropdownValue] = useState(sortList[2].label);
 
   const fetchCompanies = async () => {
+    const newOffset = pagination.currentOffset >= 0 ? pagination.currentOffset : 0;
     const { view } = sortList.find((list) => list["label"] === dropdownValue);
-    const res = await getCompanies(null, searchValue, null, null, view);
+    const res = await getCompanies(
+      null,
+      searchValue,
+      newOffset,
+      10,
+      view
+    );
 
     const extract = res.data.companies.map((company) => ({
       id: company.id,
@@ -27,12 +35,14 @@ function CompaniesPage() {
       employee: company.employee,
     }));
     setCompanies(extract);
+    setPagination(res.data.pagination);
   };
 
   useEffect(() => {
     fetchCompanies();
-  }, [dropdownValue]);
+  }, [dropdownValue, pagination.currentOffset]);
 
+  console.log(pagination.currentOffset)
   return (
     <>
       <MainTableLayout
@@ -43,6 +53,9 @@ function CompaniesPage() {
         value={value}
         setValue={setValue}
         handleSearch={fetchCompanies}
+        data={companies}
+        pagination={pagination}
+        onPageChange={setPagination} 
       >
         <MainTable titles={MainTitleList} lists={companies} />
       </MainTableLayout>
