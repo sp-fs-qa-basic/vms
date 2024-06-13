@@ -8,6 +8,7 @@ function  MainTableLayout({
   dropdownValue,
   setDropdownValue,
   children,
+  require = true,
 }) {
   return (
     <div className={S.container}>
@@ -16,6 +17,7 @@ function  MainTableLayout({
         list={list}
         dropdownValue={dropdownValue}
         setDropdownValue={setDropdownValue}
+        require={require}
       />
       {children}
       <Pagination />

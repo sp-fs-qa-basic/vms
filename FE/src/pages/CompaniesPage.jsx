@@ -9,11 +9,10 @@ function CompaniesPage() {
   const [companies, setCompanies] = useState([]);
   const [dropdownValue, setDropdownValue] = useState(sortList[2].label);
 
-  
   useEffect(() => {
     const fetchCompanies = async () => {
-      const {view} = sortList.find((list) => list['label'] === dropdownValue);
-      const res = await getCompanies(null, null, null, null, view); 
+      const { view } = sortList.find((list) => list["label"] === dropdownValue);
+      const res = await getCompanies(null, null, null, null, view);
 
       const extract = res.data.companies.map((company) => ({
         id: company.id,
@@ -21,14 +20,14 @@ function CompaniesPage() {
         imageUrl: company.imageUrl,
         description: company.description,
         category: company.category,
-        actualInvest : company.actualInvest,
+        actualInvest: company.actualInvest,
         revenue: company.revenue,
         employee: company.employee,
-      }))
+      }));
       setCompanies(extract);
     };
     fetchCompanies();
-  }, [dropdownValue]); 
+  }, [dropdownValue]);
 
   return (
     <>

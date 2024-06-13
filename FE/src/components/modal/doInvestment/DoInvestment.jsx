@@ -5,8 +5,9 @@ import * as S from "./doInvestment.module.css";
 import { Companies } from "@/api/mock";
 
 //TODO : mockData 처리
-function DoInvestment({ title, setShow, myCompany }) {
-  const { id, src, name, category } = myCompany;
+function DoInvestment({ title, setShow, company }) {
+  const { id, src, name, category } = company;
+  console.log(company)
 
   return (
     <ModalLayout title={title} setShow={setShow}>
