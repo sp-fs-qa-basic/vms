@@ -26,6 +26,7 @@ function InvestmentsPage() {
         list={investSortList}
         dropdownValue={dropdownValue}
         setDropdownValue={setDropdownValue}
+        handleRequest={getInvestment}
       >
         <MainTable titles={InvestTitleList} lists={companies} />
       </MainTableLayout>

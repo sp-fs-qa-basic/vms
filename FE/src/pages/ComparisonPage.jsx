@@ -25,6 +25,7 @@ function ComparisonPage() {
         list={compareSortList}
         dropdownValue={dropdownValue}
         setDropdownValue={setDropdownValue}
+        handleRequest={getSelect}
       >
         <MainTable titles={CompareTitleList} lists={companies} />
       </MainTableLayout>
