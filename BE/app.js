@@ -11,8 +11,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const imagesDirectory = "./src/assets/images";
-
 function asyncHandler(handler) {
   return async function (req, res) {
     try {
@@ -73,14 +71,12 @@ app.get(
     const totalCount = await prisma.company.count({
       where: search
         ? {
-            OR: [
-              { name: { contains: search, mode: "insensitive" } },
-            ],
+            OR: [{ name: { contains: search, mode: "insensitive" } }],
           }
         : {},
     });
 
-    const data = await prisma.company.findMany({
+    const companies = await prisma.company.findMany({
       where: search
         ? {
             OR: [
@@ -93,13 +89,6 @@ app.get(
       take: parseInt(limit),
       orderBy,
     });
-
-    const companies = data.map((company) => ({
-      ...company,
-      imageUrl: company.imageUrl
-        ? path.join(imagesDirectory, company.imageUrl)
-        : null,
-    }));
 
     const pagination = {
       currentOffset: parseInt(offset),
@@ -123,14 +112,7 @@ app.get(
     if (!company) {
       return res.status(404).json({ error: "Company not found" });
     }
-
-    if (company.imageUrl) {
-      const imageUrl = path.join(imagesDirectory, company.imageUrl);
-      const companyWithImageUrl = { ...company, imageUrl };
-      res.json(companyWithImageUrl);
-    } else {
-      res.json(company);
-    }
+    res.json(company);
   })
 );
 
@@ -200,14 +182,7 @@ app.post(
         sortedCompanies = companies; // 정렬 조건이 없을 경우 기본 정렬 (기존 순서)
     }
 
-    const companiesWithImageUrl = sortedCompanies.map((company) => ({
-      ...company,
-      imageUrl: company.imageUrl
-        ? path.join(imagesDirectory, company.imageUrl)
-        : null,
-    }));
-
-    res.json({ companies: companiesWithImageUrl });
+    res.json({ companies: sortedCompanies });
   })
 );
 
@@ -289,16 +264,9 @@ app.get(
       resultCompanies = sortedCompanies.slice(startIndex, endIndex);
     }
 
-    const companiesWithImageUrl = resultCompanies.map((company) => ({
-      ...company,
-      imageUrl: company.imageUrl
-        ? path.join(imagesDirectory, company.imageUrl)
-        : null,
-    }));
-
     res.json({
       rank: targetIndex + 1, // 순위는 0부터 시작하므로 +1
-      companies: companiesWithImageUrl,
+      companies: resultCompanies,
     });
   })
 );
@@ -348,16 +316,8 @@ app.get(
     const currentOffset = parseInt(offset);
     const nextOffset = Math.min(currentOffset + parseInt(limit), totalCount);
 
-    // 이미지 경로를 포함한 객체로 변환
-    const companiesWithImageUrl = companies.map((company) => ({
-      ...company,
-      imageUrl: company.imageUrl
-        ? path.join(imagesDirectory, company.imageUrl)
-        : null,
-    }));
-
     res.send({
-      companies: companiesWithImageUrl,
+      companies: companies,
       pagination: {
         currentOffset: currentOffset,
         nextOffset: nextOffset,
@@ -507,15 +467,8 @@ app.get(
     const currentOffset = parseInt(offset);
     const nextOffset = Math.min(currentOffset + parseInt(limit), totalCount);
 
-    const companiesWithImageUrl = companies.map((company) => ({
-      ...company,
-      imageUrl: company.imageUrl
-        ? path.join(imagesDirectory, company.imageUrl)
-        : null,
-    }));
-
     res.send({
-      companies: companiesWithImageUrl,
+      companies: companies,
       pagination: {
         currentOffset: currentOffset,
         nextOffset: nextOffset,
