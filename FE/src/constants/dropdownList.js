@@ -15,8 +15,8 @@ export const compareSortList = [
 ];
 
 export const investSortList = [
-  { label: "View My Startup 투자 금액 높은순", view: "mySelectionDesc" },
-  { label: "View My Startup 투자 금액 낮은순", view: "mySelectionAsc" },
+  { label: "View My Startup 투자 금액 높은순", view: "simInvestDesc" },
+  { label: "View My Startup 투자 금액 낮은순", view: "simInvestAsc" },
   { label: "실제 누적 투자 금액 높은순", view: "actualInvestDesc" },
   { label: "실제 누적 투자 금액 낮은순", view: "actualInvestAsc" },
 ];
