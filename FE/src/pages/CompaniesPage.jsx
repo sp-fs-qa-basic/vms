@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import MainTableLayout from "@/components/layout/mainTable/MainTableLayout";
 import MainTable from "@/components/table/mainTable/MainTable";
 import { getCompanies } from "@/api/company";
@@ -12,17 +13,19 @@ function CompaniesPage() {
   const [value, setValue] = useState("");
   const searchValue = useDebounce(value, 200);
   const [dropdownValue, setDropdownValue] = useState(sortList[2].label);
+  const [searchParams, setSearchParams] = useSearchParams({
+    offset: 0,
+    limit: 10,
+    view: "revenueDesc",
+  });
 
   const fetchCompanies = async () => {
-    const newOffset = pagination.currentOffset >= 0 ? pagination.currentOffset : 0;
-    const { view } = sortList.find((list) => list["label"] === dropdownValue);
-    const res = await getCompanies(
-      null,
-      searchValue,
-      newOffset,
-      10,
-      view
-    );
+    const search = searchParams.get("search");
+    const offset = parseInt(searchParams.get("offset"), 10) || 0;
+    const limit = parseInt(searchParams.get("limit"), 10) || 10;
+    const view = searchParams.get("view") || "revenueDesc";
+
+    const res = await getCompanies(null, search ?? null, offset, limit, view);
 
     const extract = res.data.companies.map((company) => ({
       id: company.id,
@@ -39,10 +42,21 @@ function CompaniesPage() {
   };
 
   useEffect(() => {
-    fetchCompanies();
-  }, [dropdownValue, pagination.currentOffset]);
+    const { view } = sortList.find((list) => list["label"] === dropdownValue);
 
-  console.log(pagination.currentOffset)
+    setSearchParams((prevParams) => {
+      const params = new URLSearchParams(prevParams);
+
+      if (searchValue) {
+        params.set("search", searchValue);
+      }
+      params.set("view", view);
+      params.set("limit", 10);
+      return params;
+    });
+    fetchCompanies();
+  }, [dropdownValue, searchValue, setSearchParams]);
+
   return (
     <>
       <MainTableLayout
@@ -55,7 +69,7 @@ function CompaniesPage() {
         handleSearch={fetchCompanies}
         data={companies}
         pagination={pagination}
-        onPageChange={setPagination} 
+        onPageChange={setPagination}
       >
         <MainTable titles={MainTitleList} lists={companies} />
       </MainTableLayout>

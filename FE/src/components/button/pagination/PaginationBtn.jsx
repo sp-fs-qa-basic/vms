@@ -1,10 +1,9 @@
 import * as S from "./paginationBtn.module.css";
 
-function PaginationBtn({ type, click = false, onClick, disabled }) {
-
+function PaginationBtn({ type, disabled, active, onClick }) {
   return (
     <button
-      className={`${S.button} ${click ? S.btn_click : S.btn_unClick}`}
+      className={`${S.button} ${active ? S.btn_click : S.btn_unClick}`}
       onClick={onClick}
       disabled={disabled}
     >

@@ -1,14 +1,19 @@
 import PaginationBtn from "@/components/button/pagination/PaginationBtn";
 import * as S from "./paginationBtn.module.css";
+import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function Pagination({ pagination, onPageChange }) {
-  const { currentOffset, limit, nextOffset, totalCount } = pagination;
+  const { totalCount } = pagination;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const limit = searchParams.get("limit") || 10;
+  const offset = searchParams.get("offset") || 0;
+  const [currentPage, setCurrentPage] = useState(Math.floor(offset / limit) + 1);
 
   const getPageNumbers = () => {
     const totalPages = Math.ceil(totalCount / limit);
     const pageNumbers = [];
 
-    const currentPage = Math.floor(currentOffset / limit) + 1;
     let startPage = Math.max(1, currentPage - 2);
     let endPage = Math.min(totalPages, currentPage + 2);
 
@@ -26,44 +31,45 @@ function Pagination({ pagination, onPageChange }) {
     return pageNumbers;
   };
 
+  const handlePageChange = (newPage) => {
+    const newOffset = (newPage - 1) * limit;
+    
+    setSearchParams((prevParams) => {
+      const params = new URLSearchParams(prevParams);
+      params.set("offset", newOffset);
+      return params;
+    });
+ 
+    onPageChange((prev) => ({
+      ...prev,
+      currentOffset: newOffset,
+      nextOffset : newOffset + limit,
+    }));
+
+    setCurrentPage(newPage);
+  };
+
   return (
     <div className={S.container}>
       <PaginationBtn
         type="<"
-        onClick={() =>
-          onPageChange((prev) => ({
-            ...prev,
-            currentOffset: currentOffset - limit,
-            nextOffset: currentOffset,
-          }))
-        }
-        disabled={currentOffset - limit < 0}
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
       />
       <div className={S.btnsContainer}>
         {getPageNumbers().map((pageNumber) => (
           <PaginationBtn
             key={pageNumber}
             type={pageNumber.toString()}
-            onClick={() =>
-              onPageChange((prev) => ({
-                ...prev,
-                currentOffset: (pageNumber - 1) * limit,
-                nextOffset: pageNumber * limit,
-              }))
-            }
+            onClick={() => handlePageChange(pageNumber)}
+            active={pageNumber === currentPage}
           />
         ))}
       </div>
       <PaginationBtn
         type=">"
-        onClick={() =>
-          onPageChange((prev) => ({
-            ...prev,
-            currentOffset: nextOffset,
-            nextOffset: currentOffset + limit,
-          }))
-        }
-        disabled={totalCount === nextOffset}
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === Math.ceil(totalCount / limit)}
       />
     </div>
   );

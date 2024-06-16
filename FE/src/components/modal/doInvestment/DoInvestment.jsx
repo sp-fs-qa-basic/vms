@@ -7,7 +7,6 @@ import { Companies } from "@/api/mock";
 //TODO : mockData 처리
 function DoInvestment({ title, setShow, company }) {
   const { id, src, name, category } = company;
-  console.log(company)
 
   return (
     <ModalLayout title={title} setShow={setShow}>
