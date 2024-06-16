@@ -11,12 +11,13 @@ function ChoiceCompany({
   setCompany,
   option = "my",
   count = 0,
+  handleRequest = null,
 }) {
   const [data, setData] = useState([]);
 
   return (
     <ModalLayout title={title} setShow={setShow}>
-      <Search setData={setData} />
+      <Search setData={setData} handleRequest={handleRequest}/>
       {/* <ChoiceTable title="최근 선택한 기업" lists={data} /> */}
       {data?.companies && (
         <>

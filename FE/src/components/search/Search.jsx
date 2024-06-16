@@ -1,19 +1,8 @@
-import { useState } from "react";
-import { getCompanies } from "@/api/company";
-import useDebounce from "@/hooks/useDebounce";
 import { ReactComponent as SearchImg } from "@/assets/icons/search.svg";
 import { ReactComponent as DeleteImg } from "@/assets/icons/delete_circle.svg";
 import * as S from "./search.module.css";
 
-function Search({setData}) {
-  const [value, setValue] = useState("");
-  const searchValue = useDebounce(value, 200);
-
-  const handleSearch = async () => {
-    const res = await getCompanies(null, searchValue, null, 5, null);
-    setData(res.data);
-  };
-
+function Search({ value, setValue, handleSearch }) {
   const PressEnter = (e) => {
     if (e.key === "Enter") {
       handleSearch();

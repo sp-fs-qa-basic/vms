@@ -2,14 +2,14 @@ import MainTableLayout from "@/components/layout/mainTable/MainTableLayout";
 import MainTable from "@/components/table/mainTable/MainTable";
 import { MainTitleList } from "@/constants/titleList";
 import { sortList } from "@/constants/dropdownList";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function DoneCompare({ lists }) {
   const [dropdownValue, setDropdownValue] = useState(sortList[2].label);
 
-  useEffect(() => {
+  // useEffect(() => {
     
-  }, [dropdownValue]);
+  // }, [dropdownValue]);
 
   return (
     <div>
@@ -18,6 +18,7 @@ function DoneCompare({ lists }) {
         list={sortList}
         dropdownValue={dropdownValue}
         setDropdownValue={setDropdownValue}
+        require={false}
       >
         <MainTable titles={MainTitleList} lists={lists} />
       </MainTableLayout>
@@ -26,6 +27,7 @@ function DoneCompare({ lists }) {
         list={sortList}
         dropdownValue={dropdownValue}
         setDropdownValue={setDropdownValue}
+        require={false}
       >
         <MainTable titles={MainTitleList} lists={lists} />
       </MainTableLayout>
