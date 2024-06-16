@@ -89,3 +89,17 @@
 .thCell:nth-child(4) {
   width: 153.75px;
 }
+
+.logoName {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left : 24px;
+  gap: 12px;
+}
+
+.logo {
+  width: 32.4px;
+  height: 32.4px;
+  border-radius: 100%;
+}

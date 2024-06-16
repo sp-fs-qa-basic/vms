@@ -19,8 +19,8 @@ function MainTable({ titles, lists }) {
         {lists.map((list, index) => (
           <tr key={list.id} className={S.td}>
             <td className={S.tdCell}>{index + 1}위</td>
-            <td className={S.tdCell}>
-              <img src={list.imageUrl} />
+            <td className={`${S.tdCell} ${S.logoName}`}>
+              <img src={list.imageUrl} className={S.logo} />
               {list.name}
             </td>
             <td className={`${S.tdCell} ${S.introduce}`}>
