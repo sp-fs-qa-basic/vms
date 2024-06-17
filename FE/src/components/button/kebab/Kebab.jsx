@@ -9,7 +9,7 @@ function Kebab({ lists, company, id }) {
   const [showOptions, setShowOptions] = useShowDropDown(ref, false);
 
   return (
-    <div className={S.container} ref={ref}>
+    <div className={S.container} ref={ref}> 
       <KebabImg
         className={S.img}
         onClick={() => setShowOptions(!showOptions)}

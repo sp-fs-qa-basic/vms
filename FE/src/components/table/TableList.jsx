@@ -1,16 +1,19 @@
 import { useState } from "react";
 import CheckAuth from "@/components/modal/checkAuth/CheckAuth";
-import * as S from "./tableList.module.css";
 import DoInvestment from "@/components/modal/doInvestment/DoInvestment";
+import * as S from "./tableList.module.css";
 
-function TableList({ lists, company, investorId }) {
+function TableList({ lists, company, investorId, setValue = null }) {
   const [show, setShow] = useState(false);
   const [check, setCheck] = useState(false);
   const [list, setList] = useState({});
 
   const handleSetValue = async (label, fu) => {
+    if (setValue) {
+      setValue(label);
+    }
     setShow(true);
-    setList({label, fu});
+    setList({ label, fu });
   };
 
   return (

@@ -14,7 +14,11 @@ function DropDown({ list, dropdownValue, setValue }) {
         {dropdownValue}
         <ToggleImg onClick={() => setShowOptions(!showOptions)} />
       </div>
-      {showOptions && <TableList lists={list} setValue={setValue} />}
+      {showOptions && (
+        <div className={S.options}>
+          <TableList lists={list} setValue={setValue} />
+        </div>
+      )}
     </div>
   );
 }
