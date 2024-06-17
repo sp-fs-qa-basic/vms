@@ -2,7 +2,6 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import cors from "cors";
 import * as dotenv from "dotenv";
 import express from "express";
-import path from "path";
 dotenv.config();
 
 const prisma = new PrismaClient();
@@ -36,12 +35,7 @@ function asyncHandler(handler) {
 app.get(
   "/companies",
   asyncHandler(async (req, res) => {
-    const {
-      offset = 0,
-      limit = 10,
-      view = "revenueDesc",
-      search = "",
-    } = req.query;
+    const { offset = 0, limit, view = "revenueDesc", search = "" } = req.query;
 
     let orderBy;
     switch (view) {
@@ -86,14 +80,14 @@ app.get(
           }
         : {},
       skip: parseInt(offset),
-      take: parseInt(limit),
+      take: limit ? parseInt(limit) : undefined,
       orderBy,
     });
 
     const pagination = {
       currentOffset: parseInt(offset),
       nextOffset: Math.min(parseInt(offset) + parseInt(limit), totalCount),
-      limit: parseInt(limit),
+      limit: limit ? parseInt(limit) : null,
       totalCount,
     };
 
@@ -274,7 +268,7 @@ app.get(
 app.get(
   "/selections",
   asyncHandler(async (req, res) => {
-    const { view = "mySelectionDesc", offset = 0, limit = 10 } = req.query;
+    const { view = "mySelectionDesc", offset = 0, limit } = req.query;
 
     let orderBy;
     switch (view) {
@@ -309,7 +303,7 @@ app.get(
         imageUrl: true,
       },
       skip: parseInt(offset),
-      take: parseInt(limit),
+      take: limit ? parseInt(limit) : undefined,
       orderBy,
     });
 
@@ -321,7 +315,7 @@ app.get(
       pagination: {
         currentOffset: currentOffset,
         nextOffset: nextOffset,
-        limit: parseInt(limit),
+        limit: limit ? parseInt(limit) : null,
         totalCount: totalCount,
       },
     });
@@ -425,7 +419,7 @@ app.post(
 app.get(
   "/investments",
   asyncHandler(async (req, res) => {
-    const { offset = 0, limit = 10, view = "simInvestDesc" } = req.query;
+    const { offset = 0, limit, view = "simInvestDesc" } = req.query;
 
     let orderBy;
     switch (view) {
@@ -460,7 +454,7 @@ app.get(
         imageUrl: true,
       },
       skip: parseInt(offset),
-      take: parseInt(limit),
+      take: limit ? parseInt(limit) : undefined,
       orderBy,
     });
 
@@ -472,7 +466,7 @@ app.get(
       pagination: {
         currentOffset: currentOffset,
         nextOffset: nextOffset,
-        limit: parseInt(limit),
+        limit: limit ? parseInt(limit) : null,
         totalCount: totalCount,
       },
     });
