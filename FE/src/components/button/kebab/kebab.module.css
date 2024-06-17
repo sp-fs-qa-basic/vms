@@ -1,9 +1,16 @@
+.container {
+  /* position: relative; */
+  background-color: var(--black-200);
+}
+
 .img {
-  position: relative;
+  background-color: var(--black-200);
 }
 
 .list {
   position: absolute;
-  bottom: 8px;
-  right: 0px;
+  bottom: -70px;
+  right: 50px;
+  width: 120px;
+  z-index: 100;
 }

@@ -13,9 +13,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />} >
           <Route index element={<CompaniesPage />} />
-          <Route path="/comparison" element={<ComparisonPage />}>
+          <Route path="/company" >
             <Route path=":companyId" element={<CompanyDetailPage />} />
           </Route>
+          <Route path="/comparison" element={<ComparisonPage />} />
           <Route path='/myComparison' element={<MyComparisonPage />} />
           <Route path="/investment" element={<InvestmentsPage />} />
           <Route path='/test' element={<Test />}/>
