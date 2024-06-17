@@ -1,7 +1,10 @@
 .formContainer {
   display: flex;
   flex-direction: column;
-  width: 496px;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  
 }
 
 .passwordBox {

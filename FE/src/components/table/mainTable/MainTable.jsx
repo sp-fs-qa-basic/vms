@@ -1,8 +1,14 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as S from "./mainTable.module.css";
+import useMakeRaking from "@/hooks/useMakeRanking";
 
-function MainTable({ titles, lists }) {
+function MainTable({ titles, lists, rank = null }) {
   const navigation = useNavigate();
+  let ranks;
+  if (rank) {
+    ranks = useMakeRaking(rank);
+  }
+
   return (
     <table className={S.tableContainer}>
       <thead>
@@ -19,15 +25,17 @@ function MainTable({ titles, lists }) {
           <td colSpan={titles.length} className={S.theadGap}></td>
         </tr>
         {lists.map((list, index) => (
-          <tr key={list.id} className={S.td} onClick={() => navigation(`company/${list.id}`)}>
-            <td className={S.tdCell}>{index + 1}위</td>
+          <tr
+            key={list.id}
+            className={S.td}
+            onClick={() => navigation(`company/${list.id}`)}
+          >
+            <td className={S.tdCell}>{ranks ? ranks[index] : index + 1}위</td>
             <td className={`${S.tdCell} ${S.logoName}`}>
               <img src={list.imageUrl} className={S.logo} />
               {list.name}
             </td>
-            <td className={`${S.tdCell} ${S.introduce}`}>
-                {list.description}
-            </td>
+            <td className={`${S.tdCell} ${S.introduce}`}>{list.description}</td>
             <td className={S.tdCell}>{list.category}</td>
             {list.actualInvest && (
               <td className={S.tdCell}>{list.actualInvest}억 원</td>
@@ -40,7 +48,9 @@ function MainTable({ titles, lists }) {
             {list.comparedSelectionCount !== undefined && (
               <td className={S.tdCell}>{list.comparedSelectionCount}명</td>
             )}
-            {list.simInvest && <td className={S.tdCell}>{list.simInvest}억 원</td>}
+            {list.simInvest && (
+              <td className={S.tdCell}>{list.simInvest}억 원</td>
+            )}
           </tr>
         ))}
       </tbody>

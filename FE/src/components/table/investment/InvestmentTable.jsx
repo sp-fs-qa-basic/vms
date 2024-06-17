@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { InvestmentTitles as titles } from "@/constants/titleList";
 import Kebab from "@/components/button/kebab/Kebab";
 import { updateDelete } from "@/constants/dropdownList";
-import { getInvestment } from "@/api/investment";
 import Pagination from "@/components/button/pagination/Pagination";
+import { getInvestment } from "@/api/investment";
 import * as S from "./investmentTable.module.css";
 
 function InvestmentTable({ company }) {
@@ -13,6 +13,7 @@ function InvestmentTable({ company }) {
   const fetchInvests = async () => {
       const res = await getInvestment(company.id, null);
       setInvestors(res.data.investors);
+      console.log(res)
       setPagination(res.data.pagination);
   };
 
@@ -47,7 +48,7 @@ function InvestmentTable({ company }) {
                 {investor.comment}
               </td>
               <td className={S.tdCell}>
-                <Kebab lists={updateDelete} investor={investor} id={investor.id} company={company}/>
+                <Kebab lists={updateDelete} investor={investor} company={company}/>
               </td>
             </tr>
           ))}

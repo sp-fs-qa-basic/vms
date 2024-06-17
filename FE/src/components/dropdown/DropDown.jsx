@@ -1,7 +1,7 @@
 import { useRef } from "react";
-import { ReactComponent as ToggleImg } from "@/assets/icons/toggle.svg";
 import TableList from "@/components/table/TableList";
 import useShowDropDown from "@/hooks/useShowDropDown";
+import { ReactComponent as ToggleImg } from "@/assets/icons/toggle.svg";
 import * as S from "./dropdown.module.css";
 
 function DropDown({ list, dropdownValue, setValue }) {
@@ -14,7 +14,11 @@ function DropDown({ list, dropdownValue, setValue }) {
         {dropdownValue}
         <ToggleImg onClick={() => setShowOptions(!showOptions)} />
       </div>
-      {showOptions && <TableList lists={list} setValue={setValue} />}
+      {showOptions && (
+        <div className={S.options}>
+          <TableList lists={list} setValue={setValue} />
+        </div>
+      )}
     </div>
   );
 }

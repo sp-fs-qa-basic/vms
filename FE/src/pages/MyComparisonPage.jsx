@@ -2,11 +2,11 @@ import { useState } from "react";
 import MyCompanyBoard from "@/components/board/myCompany/MyCompanyBoard";
 import CompareCompanyBoard from "@/components/board/compareCompany/CompareCompanyBoard";
 import Button from "@/components/button/Button";
-import * as S from "./pages.module.css";
-import * as B from "@/components/button/button.module.css";
 import DoneCompare from "@/components/board/doneCompare/DoneCompare";
 import DoInvestment from "@/components/modal/doInvestment/DoInvestment";
 import { postCompare } from "@/api/compare";
+import * as S from "./pages.module.css";
+import * as B from "@/components/button/button.module.css";
 
 function MyComparisonPage() {
   const [showDoInvestment, setShowDoInvestment] = useState(false);
@@ -17,6 +17,7 @@ function MyComparisonPage() {
   const handleCompare = async () => {
     const ids = compareCompany.map((company) => company.id);
     const res = await postCompare(myCompany.id, ids, null);
+
     if (res.status === 200) {
       setCompare(res.data.companies);
     }
@@ -39,7 +40,11 @@ function MyComparisonPage() {
             />
             {compare.length ? (
               <>
-                <DoneCompare lists={compare} />
+                <DoneCompare
+                  lists={compare}
+                  compareCompany={compareCompany}
+                  myCompany={myCompany}
+                />
                 <Button
                   name="나의 기업에 투자하기"
                   className={`${B.half_circle} ${B.orange_background}`}
@@ -61,7 +66,11 @@ function MyComparisonPage() {
         )}
       </div>
       {showDoInvestment && (
-        <DoInvestment title="기업에 투자하기" setShow={setShowDoInvestment} company={myCompany} />
+        <DoInvestment
+          title="기업에 투자하기"
+          setShow={setShowDoInvestment}
+          company={myCompany}
+        />
       )}
     </>
   );

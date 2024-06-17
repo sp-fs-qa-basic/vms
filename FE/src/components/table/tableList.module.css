@@ -1,5 +1,7 @@
 .tableContainer {
-  width: 144px;
+  display: absolute;
+  top: 50px;
+  width: 200px;
   border: 1px solid var(--gray-200);
   border-radius: 10px;
   border-spacing: 0px;

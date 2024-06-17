@@ -10,6 +10,7 @@ function DefaultInput({
   name,
   label,
   control,
+  value = null,
   isRequired = true,
   rules
 }) {
@@ -21,7 +22,7 @@ function DefaultInput({
   } = useController({
     name,
     control,
-    defaultValue: '',
+    defaultValue: value ? value : '',
     rules: {
       ...rules,
       ...(isRequired && { required: { value: true} }),

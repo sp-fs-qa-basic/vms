@@ -1,37 +1,71 @@
+import { useEffect, useState } from "react";
 import ModalLayout from "@/components/modal/ModalLayout";
 import Search from "@/components/search/Search";
 import ChoiceTable from "@/components/table/companyChoice/ChoiceTable";
 import Pagination from "@/components/button/pagination/Pagination";
 import * as S from "./choiceCompany.module.css";
-import { useState } from "react";
 
 function ChoiceCompany({
   title,
+  value,
+  setValue,
   setShow,
+  companies,
   setCompany,
   option = "my",
   count = 0,
-  handleRequest = null,
+  handleSearch,
+  pagination,
+  onPagination,
 }) {
-  const [data, setData] = useState([]);
+  const [recentCompanies, setRecentCompanies] = useState([]);
+
+  useEffect(() => {
+    const storedCompanies =
+      JSON.parse(localStorage.getItem("recentCompanies")) || [];
+    setRecentCompanies(storedCompanies);
+  }, []);
+
+  const handleSelectCompany = (company) => {
+    const updatedCompanies = [
+      company,
+      ...recentCompanies.filter((item) => item.companyId !== company.companyId),
+    ];
+    if (updatedCompanies.length > 5) {
+      updatedCompanies.pop();
+    }
+    setRecentCompanies(updatedCompanies);
+    localStorage.setItem("recentCompanies", JSON.stringify(updatedCompanies));
+    setCompany(company);
+    setShow(false);
+  };
 
   return (
     <ModalLayout title={title} setShow={setShow}>
-      <Search setData={setData} handleRequest={handleRequest}/>
-      {/* <ChoiceTable title="최근 선택한 기업" lists={data} /> */}
-      {data?.companies && (
+      <Search handleSearch={handleSearch} value={value} setValue={setValue} />
+      {recentCompanies.length > 0 && (
+        <ChoiceTable
+          title="최근 선택한 기업"
+          lists={recentCompanies}
+          setShow={setShow}
+          setCompany={handleSelectCompany}
+          option={option}
+          count={count}
+        />
+      )}
+      {companies && (
         <>
           <ChoiceTable
             title="검색 결과"
-            lists={data.companies}
+            lists={companies}
             setShow={setShow}
             setCompany={setCompany}
             option={option}
             count={count}
           />
-          {data.companies.length > 5 && (
+          {companies.length > 5 && (
             <div className={S.paginationContainer}>
-              <Pagination />
+              <Pagination pagination={pagination} onPageChange={onPagination} />
             </div>
           )}
         </>

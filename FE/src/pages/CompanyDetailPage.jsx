@@ -1,15 +1,14 @@
-import { getCompanies } from "@/api/company";
-import Horizon from "@/components/board/horizon/Horizon";
-import TitleValueBoard from "@/components/board/titleValue/TitleValueBoard";
-import Button from "@/components/button/Button";
-import Pagination from "@/components/button/pagination/Pagination";
-import CompanyTitle from "@/components/table/companyChoice/CompanyTitle";
-import InvestmentTable from "@/components/table/investment/InvestmentTable";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Button from "@/components/button/Button";
+import CompanyTitle from "@/components/table/companyChoice/CompanyTitle";
+import DoInvestment from "@/components/modal/doInvestment/DoInvestment";
+import Horizon from "@/components/board/horizon/Horizon";
+import InvestmentTable from "@/components/table/investment/InvestmentTable";
+import TitleValueBoard from "@/components/board/titleValue/TitleValueBoard";
+import { getCompanies } from "@/api/company";
 import * as S from "./pages.module.css";
 import * as B from "@/components/button/button.module.css";
-import DoInvestment from "@/components/modal/doInvestment/DoInvestment";
 
 function CompanyDetailPage() {
   const { companyId } = useParams();
