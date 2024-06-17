@@ -35,7 +35,7 @@ function asyncHandler(handler) {
 app.get(
   "/companies",
   asyncHandler(async (req, res) => {
-    const { offset = 0, limit, view = "revenueDesc", search = "" } = req.query;
+    const { offset = 0, limit = 10, view = "revenueDesc", search = "" } = req.query;
 
     let orderBy;
     switch (view) {
@@ -80,14 +80,14 @@ app.get(
           }
         : {},
       skip: parseInt(offset),
-      take: limit ? parseInt(limit) : undefined,
+      take: parseInt(limit),
       orderBy,
     });
 
     const pagination = {
       currentOffset: parseInt(offset),
       nextOffset: Math.min(parseInt(offset) + parseInt(limit), totalCount),
-      limit: limit ? parseInt(limit) : null,
+      limit: parseInt(limit),
       totalCount,
     };
 
@@ -268,7 +268,7 @@ app.get(
 app.get(
   "/selections",
   asyncHandler(async (req, res) => {
-    const { view = "mySelectionDesc", offset = 0, limit } = req.query;
+    const { view = "mySelectionDesc", offset = 0, limit = 10 } = req.query;
 
     let orderBy;
     switch (view) {
@@ -303,7 +303,7 @@ app.get(
         imageUrl: true,
       },
       skip: parseInt(offset),
-      take: limit ? parseInt(limit) : undefined,
+      take: parseInt(limit),
       orderBy,
     });
 
@@ -315,7 +315,7 @@ app.get(
       pagination: {
         currentOffset: currentOffset,
         nextOffset: nextOffset,
-        limit: limit ? parseInt(limit) : null,
+        limit: parseInt(limit),
         totalCount: totalCount,
       },
     });
@@ -419,7 +419,7 @@ app.post(
 app.get(
   "/investments",
   asyncHandler(async (req, res) => {
-    const { offset = 0, limit, view = "simInvestDesc" } = req.query;
+    const { offset = 0, limit = 10, view = "simInvestDesc" } = req.query;
 
     let orderBy;
     switch (view) {
@@ -454,7 +454,7 @@ app.get(
         imageUrl: true,
       },
       skip: parseInt(offset),
-      take: limit ? parseInt(limit) : undefined,
+      take: parseInt(limit),
       orderBy,
     });
 
@@ -466,7 +466,7 @@ app.get(
       pagination: {
         currentOffset: currentOffset,
         nextOffset: nextOffset,
-        limit: limit ? parseInt(limit) : null,
+        limit: parseInt(limit),
         totalCount: totalCount,
       },
     });
