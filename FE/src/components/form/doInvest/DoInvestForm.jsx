@@ -4,8 +4,10 @@ import Button from "@/components/button/Button";
 import { postInvestment, updateInvestment } from "@/api/investment";
 import * as S from "./doInvestForm.module.css";
 import * as B from "@/components/button/button.module.css";
+import { useNavigate } from "react-router-dom";
 
 function DoInvestForm({ setShow, id, investor }) {
+  const navigation = useNavigate();
   const {
     control,
     handleSubmit,
@@ -17,13 +19,12 @@ function DoInvestForm({ setShow, id, investor }) {
     let res;
     if(investor) {
       res = await updateInvestment(investor.id, formData);
+      setShow(false);
     } else {
       res = await postInvestment(id, formData);
-    }
-
-    if(res.status === 200) {
       setShow(false);
-    } 
+      navigation(`/company/${id}`)
+    }
   };
 
   return (
@@ -32,14 +33,14 @@ function DoInvestForm({ setShow, id, investor }) {
         placeholder="투자자 이름을 입력해 주세요"
         name="name"
         label="투자자 이름"
-        value={investor.name}
+        value={investor ? investor.name : null}
         control={control}
       />
       <DefaultInput
         placeholder="투자 금액을 입력해 주세요"
         name="amount"
         label="투자 금액"
-        value={investor.amount}
+        value={investor ? investor.amount : null}
         control={control}
       />
       <DefaultInput
@@ -47,7 +48,7 @@ function DoInvestForm({ setShow, id, investor }) {
         type="textarea"
         name="comment"
         label="투자 코멘트"
-        value={investor.comment}
+        value={investor ? investor.comment : null}
         control={control}
       />
       <DefaultInput

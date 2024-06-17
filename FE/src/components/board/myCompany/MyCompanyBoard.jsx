@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import CompareBoardLayout from "@/components/layout/compareBoard/CompareBoardLayout";
 import ChoiceCompany from "@/components/modal/choiceCompany/ChoiceCompany";
+import { getCompanies } from "@/api/company";
 import { postMySelectCancel } from "@/api/selection";
+import useDebounce from "@/hooks/useDebounce";
 import { ReactComponent as AddImg } from "@/assets/icons/circle_plus.svg";
 import * as S from "./MyCompanyBoard.module.css";
-import { getCompanies } from "@/api/company";
-import useDebounce from "@/hooks/useDebounce";
-import { useSearchParams } from "react-router-dom";
 
 function MyCompanyBoard({ title, myCompany, setMyCompany }) {
   const [show, setShow] = useState(false);
@@ -20,17 +20,11 @@ function MyCompanyBoard({ title, myCompany, setMyCompany }) {
   });
 
   const handleSearch = async () => {
-    setSearchParams((prevParams) => {
-      const params = new URLSearchParams(prevParams);
-      params.set("search", searchValue);
-      return params;
-    })
     const offset = parseInt(searchParams.get("offset"), 10) || 0;
     const limit = parseInt(searchParams.get("limit"), 10) || 5;
     const search = searchParams.get("search");
 
-    const res = await getCompanies(null, search, limit, offset, null);
-    console.log(res)
+    const res = await getCompanies(null, search ?? null, offset, limit, null);
     setCompanies(res.data.companies);
     setPagination(res.data.pagination);
   };
@@ -43,6 +37,16 @@ function MyCompanyBoard({ title, myCompany, setMyCompany }) {
       }
     }
   };
+
+  useEffect(() => {
+    setSearchParams((prevParams) => {
+      const params = new URLSearchParams(prevParams);
+      if (searchValue) {
+        params.set("search", searchValue);
+      }
+      return params;
+    });
+  }, [searchValue]);
 
   return (
     <>
@@ -57,8 +61,9 @@ function MyCompanyBoard({ title, myCompany, setMyCompany }) {
             <span className={S.cancel} onClick={handleSelectDelete}>
               선택 취소
             </span>
-            <img src={myCompany.src} />
+            <img className={S.logoImg} src={myCompany.src} />
             <p>{myCompany.name}</p>
+            <p>{myCompany.category}</p>
           </>
         )}
       </CompareBoardLayout>

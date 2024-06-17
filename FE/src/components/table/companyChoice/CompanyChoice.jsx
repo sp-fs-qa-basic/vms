@@ -22,7 +22,7 @@ function CompanyChoice({
     if (option === "my") {
       const res = await postMySelect(id);
       if (res.status === 200) {
-        setCompany({ id, src, name });
+        setCompany({ id, src, name, category });
         setShow(false);
         setIsChecked((prev) => !prev);
       }
