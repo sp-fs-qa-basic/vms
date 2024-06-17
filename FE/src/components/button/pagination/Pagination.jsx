@@ -1,7 +1,7 @@
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import PaginationBtn from "@/components/button/pagination/PaginationBtn";
 import * as S from "./paginationBtn.module.css";
-import { useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 function Pagination({ pagination, onPageChange }) {
   const { totalCount } = pagination;

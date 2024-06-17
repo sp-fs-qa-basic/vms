@@ -1,9 +1,9 @@
 import { useState } from "react";
 import CompanyTitle from "@/components/table/companyChoice/CompanyTitle";
 import Button from "@/components/button/Button";
+import { postCompareSelect, postMySelect } from "@/api/selection";
 import * as S from "./choiceTable.module.css";
 import * as B from "@/components/button/button.module.css";
-import { postCompareSelect, postMySelect } from "@/api/selection";
 
 function CompanyChoice({
   id,

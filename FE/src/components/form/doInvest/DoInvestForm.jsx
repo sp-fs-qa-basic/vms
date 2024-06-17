@@ -1,9 +1,9 @@
+import { useForm } from "react-hook-form";
 import DefaultInput from "@/components/input/DefaultInput";
 import Button from "@/components/button/Button";
+import { postInvestment } from "@/api/investment";
 import * as S from "./doInvestForm.module.css";
 import * as B from "@/components/button/button.module.css";
-import { useForm } from "react-hook-form";
-import { postInvestment } from "@/api/investment";
 
 function DoInvestForm({ setShow, id }) {
   const {

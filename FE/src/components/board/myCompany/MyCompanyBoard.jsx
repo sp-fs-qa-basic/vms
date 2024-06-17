@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { ReactComponent as AddImg } from "@/assets/icons/circle_plus.svg";
 import CompareBoardLayout from "@/components/layout/compareBoard/CompareBoardLayout";
 import ChoiceCompany from "@/components/modal/choiceCompany/ChoiceCompany";
-import * as S from "./MyCompanyBoard.module.css";
 import { postMySelectCancel } from "@/api/selection";
+import { ReactComponent as AddImg } from "@/assets/icons/circle_plus.svg";
+import * as S from "./MyCompanyBoard.module.css";
 
 function MyCompanyBoard({ title, myCompany, setMyCompany }) {
   const [show, setShow] = useState(false);

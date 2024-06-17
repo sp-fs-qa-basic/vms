@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { InvestmentTitles as titles } from "@/constants/titleList";
 import Kebab from "@/components/button/kebab/Kebab";
 import { updateDelete } from "@/constants/dropdownList";
-import { getInvestment } from "@/api/investment";
 import Pagination from "@/components/button/pagination/Pagination";
+import { getInvestment } from "@/api/investment";
 import * as S from "./investmentTable.module.css";
 
 function InvestmentTable({ company }) {

@@ -1,9 +1,9 @@
+import { useState } from "react";
 import ModalLayout from "@/components/modal/ModalLayout";
 import Search from "@/components/search/Search";
 import ChoiceTable from "@/components/table/companyChoice/ChoiceTable";
 import Pagination from "@/components/button/pagination/Pagination";
 import * as S from "./choiceCompany.module.css";
-import { useState } from "react";
 
 function ChoiceCompany({
   title,

@@ -1,12 +1,12 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import AlertModal from "@/components/modal/alert/AlertModal";
 import Button from "@/components/button/Button";
+import DefaultInput from "@/components/input/DefaultInput";
 import ModalLayout from "@/components/modal/ModalLayout";
+import { postCheckAuth } from "@/api/auth";
 import * as S from "./checkAuth.module.css";
 import * as B from "@/components/button/button.module.css";
-import DefaultInput from "@/components/input/DefaultInput";
-import { useForm } from "react-hook-form";
-import { postCheckAuth } from "@/api/auth";
-import { useState } from "react";
-import AlertModal from "@/components/modal/alert/AlertModal";
 
 function CheckAuth({ setShow, setCheck, title, id }) {
   const { control, handleSubmit, getValues } = useForm();
