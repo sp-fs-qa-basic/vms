@@ -31,6 +31,7 @@ export const InvestmentTitles = [
   "순위",
   "투자 금액",
   "투자 코멘트",
+  ''
 ];
 
 export const BoardTitles = {

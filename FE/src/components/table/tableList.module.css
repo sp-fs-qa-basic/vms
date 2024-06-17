@@ -1,6 +1,4 @@
 .tableContainer {
-  position: absolute;
-  top: 50px;
   width: 144px;
   border: 1px solid var(--gray-200);
   border-radius: 10px;

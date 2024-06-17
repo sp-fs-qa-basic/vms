@@ -19,6 +19,7 @@ function CompaniesPage() {
     view: "revenueDesc",
   });
 
+  
   const fetchCompanies = async () => {
     const search = searchParams.get("search");
     const offset = parseInt(searchParams.get("offset"), 10) || 0;
@@ -28,7 +29,7 @@ function CompaniesPage() {
     const res = await getCompanies(null, search ?? null, offset, limit, view);
 
     const extract = res.data.companies.map((company) => ({
-      id: company.id,
+      id: company.companyId,
       name: company.name,
       imageUrl: company.imageUrl,
       description: company.description,

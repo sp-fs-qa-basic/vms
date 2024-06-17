@@ -1,6 +1,8 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import * as S from "./mainTable.module.css";
 
 function MainTable({ titles, lists }) {
+  const navigation = useNavigate();
   return (
     <table className={S.tableContainer}>
       <thead>
@@ -17,7 +19,7 @@ function MainTable({ titles, lists }) {
           <td colSpan={titles.length} className={S.theadGap}></td>
         </tr>
         {lists.map((list, index) => (
-          <tr key={list.id} className={S.td}>
+          <tr key={list.id} className={S.td} onClick={() => navigation(`company/${list.id}`)}>
             <td className={S.tdCell}>{index + 1}위</td>
             <td className={`${S.tdCell} ${S.logoName}`}>
               <img src={list.imageUrl} className={S.logo} />

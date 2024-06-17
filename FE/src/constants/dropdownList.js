@@ -1,3 +1,5 @@
+import { deleteInvestment, updateInvestment } from "@/api/investment";
+
 export const sortList = [
   { label: "누적 투자금액 높은순", view: "actualInvestDesc" },
   { label: "누적 투자금액 낮은순", view: "actualInvestAsc" },
@@ -28,4 +30,7 @@ export const investmentSortList = [
   "실제 누적 투자 금액 높은순",
 ];
 
-export const updateDelete = ["수정하기", "삭제하기"];
+export const updateDelete = [
+  { label: "수정하기", fu: updateInvestment },
+  { label: "삭제하기", fu: deleteInvestment},
+];

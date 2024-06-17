@@ -7,7 +7,7 @@ import { sortList } from "@/constants/dropdownList";
 import Button from "@/components/button/Button";
 import { useState } from "react";
 import ChoiceCompany from "@/components/modal/choiceCompany/ChoiceCompany";
-import DeleteAuth from "@/components/modal/deleteAuth/DeleteAuth";
+import DeleteAuth from "@/components/modal/checkAuth/CheckAuth";
 import DoInvestment from "@/components/modal/doInvestment/DoInvestment";
 
 function Test() {

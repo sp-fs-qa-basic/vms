@@ -4,23 +4,22 @@ import TableList from "@/components/table/TableList";
 import useShowDropDown from "@/hooks/useShowDropDown";
 import * as S from "./kebab.module.css";
 
-function Kebab({ lists }) {
+function Kebab({ lists, company, id }) {
   const ref = useRef();
   const [showOptions, setShowOptions] = useShowDropDown(ref, false);
 
   return (
-    <>
+    <div className={S.container} ref={ref}>
       <KebabImg
         className={S.img}
-        ref={ref}
         onClick={() => setShowOptions(!showOptions)}
       />
       {showOptions && (
         <div className={S.list}>
-          <TableList lists={lists} setValue={null} />
+          <TableList lists={lists} company={company} investorId={id}/>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

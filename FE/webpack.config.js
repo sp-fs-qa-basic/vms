@@ -11,6 +11,7 @@ module.exports = {
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "build"),
+    publicPath: '/',  // 추가
   },
   resolve: {
     extensions: [".js", ".jsx"],
@@ -88,11 +89,15 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.REACT_APP_BASE_URL': JSON.stringify(process.env.REACT_APP_BASE_URL)
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin(),
   ],
   devServer: {
     historyApiFallback: true,
     port: 8080,
     hot: true,
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
   },
 };
