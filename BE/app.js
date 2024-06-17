@@ -35,7 +35,12 @@ function asyncHandler(handler) {
 app.get(
   "/companies",
   asyncHandler(async (req, res) => {
-    const { offset = 0, limit = 10, view = "revenueDesc", search = "" } = req.query;
+    const {
+      offset = 0,
+      limit = 10,
+      view = "revenueDesc",
+      search = "",
+    } = req.query;
 
     let orderBy;
     switch (view) {
@@ -515,7 +520,9 @@ app.post(
 app.get(
   "/investments/:companyId",
   asyncHandler(async (req, res) => {
-    const { companyId } = req.query;
+    const { companyId, offset = 0, limit = 5 } = req.query;
+
+    const totalCount = await prisma.investor.count();
 
     const investors = await prisma.investor.findMany({
       where: {
@@ -532,8 +539,18 @@ app.get(
       orderBy: {
         amount: "desc",
       },
+      skip: parseInt(offset),
+      take: parseInt(limit),
     });
-    res.json(investors);
+
+    const pagination = {
+      currentOffset: parseInt(offset),
+      nextOffset: Math.min(parseInt(offset) + parseInt(limit), totalCount),
+      limit: parseInt(limit),
+      totalCount,
+    };
+
+    res.json({ investors, pagination });
   })
 );
 
