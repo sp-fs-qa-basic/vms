@@ -34,13 +34,13 @@ function MainTable({ titles, lists }) {
             )}
             {list.revenue && <td className={S.tdCell}>{list.revenue}억 원</td>}
             {list.employee && <td className={S.tdCell}>{list.employee}명</td>}
-            {list.mySelectionCount && (
+            {list.comparedSelectionCount !== undefined && (
               <td className={S.tdCell}>{list.mySelectionCount}명</td>
             )}
-            {list.comparedSelectionCount && (
+            {list.comparedSelectionCount !== undefined && (
               <td className={S.tdCell}>{list.comparedSelectionCount}명</td>
             )}
-            {list.simInvest && <td className={S.tdCell}>{list.simInvest}명</td>}
+            {list.simInvest && <td className={S.tdCell}>{list.simInvest}억 원</td>}
           </tr>
         ))}
       </tbody>
