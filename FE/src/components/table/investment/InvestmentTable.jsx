@@ -13,6 +13,7 @@ function InvestmentTable({ company }) {
   const fetchInvests = async () => {
       const res = await getInvestment(company.id, null);
       setInvestors(res.data.investors);
+      console.log(res)
       setPagination(res.data.pagination);
   };
 
@@ -47,7 +48,7 @@ function InvestmentTable({ company }) {
                 {investor.comment}
               </td>
               <td className={S.tdCell}>
-                <Kebab lists={updateDelete} investor={investor} id={investor.id} company={company}/>
+                <Kebab lists={updateDelete} investor={investor} company={company}/>
               </td>
             </tr>
           ))}

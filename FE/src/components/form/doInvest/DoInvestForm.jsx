@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import DefaultInput from "@/components/input/DefaultInput";
 import Button from "@/components/button/Button";
-import { postInvestment } from "@/api/investment";
+import { postInvestment, updateInvestment } from "@/api/investment";
 import * as S from "./doInvestForm.module.css";
 import * as B from "@/components/button/button.module.css";
 
-function DoInvestForm({ setShow, id }) {
+function DoInvestForm({ setShow, id, investor }) {
   const {
     control,
     handleSubmit,
@@ -14,11 +14,16 @@ function DoInvestForm({ setShow, id }) {
 
   const onSubmit = async () => {
     const {passwordCheck, ...formData} = getValues();
-    const res = await postInvestment(id, formData);
-    
+    let res;
+    if(investor) {
+      res = await updateInvestment(investor.id, formData);
+    } else {
+      res = await postInvestment(id, formData);
+    }
+
     if(res.status === 200) {
       setShow(false);
-    }
+    } 
   };
 
   return (
@@ -27,12 +32,14 @@ function DoInvestForm({ setShow, id }) {
         placeholder="투자자 이름을 입력해 주세요"
         name="name"
         label="투자자 이름"
+        value={investor.name}
         control={control}
       />
       <DefaultInput
         placeholder="투자 금액을 입력해 주세요"
         name="amount"
         label="투자 금액"
+        value={investor.amount}
         control={control}
       />
       <DefaultInput
@@ -40,10 +47,11 @@ function DoInvestForm({ setShow, id }) {
         type="textarea"
         name="comment"
         label="투자 코멘트"
+        value={investor.comment}
         control={control}
       />
       <DefaultInput
-        placeholder="비밀번호를 입력해 주세요"
+        placeholder={investor ? "비밀번호 변경을 원하실 경우 새로운 비밀번호를 입력해주세요" : "비밀번호를 입력해 주세요"}
         type="password"
         name="password"
         label="비밀번호"

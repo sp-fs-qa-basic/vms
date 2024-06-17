@@ -3,8 +3,8 @@ import ModalLayout from "@/components/modal/ModalLayout";
 import CompanyTitle from "@/components/table/companyChoice/CompanyTitle";
 import * as S from "./doInvestment.module.css";
 
-function DoInvestment({ title, setShow, company }) {
-  const { id, src, name, category } = company;
+function DoInvestment({ title, setShow, company, investor = null }) {
+  const { companyId, src, name, category } = company;
 
   return (
     <ModalLayout title={title} setShow={setShow}>
@@ -12,7 +12,7 @@ function DoInvestment({ title, setShow, company }) {
         투자 기업 정보
         <CompanyTitle src={src} name={name} category={category} />
       </div>
-      <DoInvestForm setShow={setShow} id={id} />
+      <DoInvestForm setShow={setShow} id={companyId} investor={investor} />
     </ModalLayout>
   );
 }
