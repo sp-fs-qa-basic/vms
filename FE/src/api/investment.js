@@ -1,12 +1,14 @@
 import sendApiRequest from "@/libs/instance";
 
 //특정 기업에 투자한 모든 투자자 조회
-export const getInvestment = async (id, view) => {
+export const getInvestment = async (id, view, offset, limit) => {
   const option = {
     endpoint: `/investments${id ? `/${id}` : ""}`,
     method: "GET",
     params: {
-      view
+      view,
+      offset,
+      limit
     }
   };
 
